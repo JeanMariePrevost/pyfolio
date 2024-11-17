@@ -1,5 +1,7 @@
 import os
 
+from portfolio_element import PortfolioElement
+
 
 class Portfolio:
     """
@@ -11,11 +13,11 @@ class Portfolio:
     IGNORED_EXTENSIONS = [".md", ".txt"]
 
     def __init__(self):
-        self.elements = self._discover_portfolio_elements()
+        self._elements = self._discover_portfolio_elements()
 
         # DEBUG: Print the elements found in the portfolio
         print("Portfolio scan complete. Found the following elements:")
-        print(self.elements)
+        print(self._elements)
 
     def _discover_portfolio_elements(self):
         """
@@ -26,5 +28,10 @@ class Portfolio:
         for subdirectory, _, files in os.walk(scan_directory):
             for file in files:
                 if not any(file.endswith(ext) for ext in self.IGNORED_EXTENSIONS):
-                    elements.append(os.path.relpath(os.path.join(subdirectory, file), scan_directory))
+                    file_relative_path = os.path.relpath(os.path.join(subdirectory, file), scan_directory)
+                    new_portfolio_element = PortfolioElement(relative_asset_path=file_relative_path)
+                    elements.append(new_portfolio_element)
         return elements
+
+    def get_elements(self):
+        return self._elements

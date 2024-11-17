@@ -1,0 +1,13 @@
+{% extends "base.jinja" %}
+
+{% block content %}
+    <h1>Gallery</h1>
+    <ul>
+        {% for element in elements %}
+            <li>
+                <a href="{{ element.get_absolute_url() }}">{{ element.get_file_name() }}</a>
+                {% if element.get_asset_text() %}<p>{{ element.get_asset_text() }}</p>{% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock content %}

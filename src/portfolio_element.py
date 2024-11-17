@@ -4,22 +4,30 @@ import os
 class PortfolioElement:
     """
     Represents a single portfolio element.
-
     All paths are relative to the portfolio folder.
     """
 
-    def __init__(self, asset_path: str):
-        self._asset_path = asset_path
+    def __init__(self, relative_asset_path: str):
+        self._relative_asset_path = relative_asset_path
 
     def get_asset_identifier(self) -> str:
         """The path of the asset, relative to the portfolio folder, without the file extension."""
-        return os.path.splitext(self._asset_path)[0]
+        return os.path.splitext(self._relative_asset_path)[0]
 
     def get_asset_path(self) -> str:
-        return self._asset_path
+        """Return the relative asset path."""
+        return self._relative_asset_path
+
+    def get_file_name(self) -> str:
+        """Return just the file name without the directory."""
+        return os.path.basename(self._relative_asset_path)
+
+    def get_absolute_url(self, base_url: str = "/static/portfolio/") -> str:
+        """Return the absolute URL for the asset."""
+        return base_url + self._relative_asset_path
 
     def get_asset_text(self) -> str:
-        # If file exists on server, read and return its contents, otherwise return an empty string
+        """Return the markdown text content if available, or an empty string."""
         asset_text_file_path = self.get_asset_identifier() + ".md"
         if os.path.isfile(asset_text_file_path):
             with open(asset_text_file_path, "r") as file:

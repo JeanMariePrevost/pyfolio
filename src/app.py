@@ -16,8 +16,10 @@ def home():
 
 @app.route("/gallery")
 def gallery():
-    # TODO : Currently a placeholder
-    return "This page has not yet been defined."
+    print("User accessed the gallery page.")
+    list_of_elements = portfolio.get_elements()
+    print(f"Found {len(list_of_elements)} elements in the portfolio.")
+    return render_template("gallery.jinja", elements=portfolio.get_elements())
 
 
 @app.route("/about")
