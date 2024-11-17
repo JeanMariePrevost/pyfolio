@@ -69,6 +69,11 @@ body {
   text-align: right;
 }
 
+.portfolio-item-caption {
+  margin: 20px 0;
+  text-align: center;
+}
+
 .footer {
   background-color: #f4f4f4;
   padding: 20px;
