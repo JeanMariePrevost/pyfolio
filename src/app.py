@@ -2,6 +2,7 @@ import os
 from flask import Flask, render_template
 import webbrowser
 from threading import Timer
+import markdown
 
 app = Flask(__name__)
 
@@ -45,6 +46,16 @@ def terms_of_service():
 def cookie_policy():
     # TODO : Currently a placeholder
     return "This page has not yet been defined."
+
+
+@app.route("/markdown_test")
+def markdown_test():
+    raw_markdown = """# This is a markdown test page
+
+This is a **markdown-powered** page.
+"""
+    rendered_markdown = markdown.markdown(raw_markdown)
+    return render_template("text_page.jinja", page_title="Markdown Test Page", markdown_content=rendered_markdown)
 
 
 def open_browser():
