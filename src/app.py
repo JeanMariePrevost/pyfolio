@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template
+from flask import Flask, render_template, send_from_directory
 import webbrowser
 from threading import Timer
 import markdown
@@ -16,7 +16,7 @@ def home():
 
 @app.route("/gallery")
 def gallery():
-    print("User accessed the gallery page.")
+    print("User")
     list_of_elements = portfolio.get_elements()
     print(f"Found {len(list_of_elements)} elements in the portfolio.")
     return render_template("gallery.jinja", elements=portfolio.get_elements())
@@ -60,6 +60,12 @@ This is a **markdown-powered** page.
 """
     rendered_markdown = markdown.markdown(raw_markdown)
     return render_template("text_page.jinja", page_title="Markdown Test Page", markdown_content=rendered_markdown)
+
+
+@app.route("/portfolio/<path:filename>")
+def serve_portfolio(filename):
+    """Serve the portfolio assets directly, e.g. allow direct access to images."""
+    return send_from_directory("portfolio", filename)
 
 
 def open_browser():

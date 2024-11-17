@@ -22,7 +22,7 @@ class PortfolioElement:
         """Return just the file name without the directory."""
         return os.path.basename(self._relative_asset_path)
 
-    def get_absolute_url(self, base_url: str = "/static/portfolio/") -> str:
+    def get_absolute_url(self, base_url: str = "/portfolio/") -> str:
         """Return the absolute URL for the asset."""
         return base_url + self._relative_asset_path
 
