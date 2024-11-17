@@ -1,5 +1,6 @@
 import os
 
+import path_util
 from portfolio_element import PortfolioElement
 
 
@@ -24,20 +25,33 @@ class Portfolio:
         Parses the portfolio folder and returns a list of all the elements found in it.
         """
         elements = []
-        scan_directory = os.path.join(os.path.dirname(__file__), "portfolio")  # Finds the portfolio folder relative to the script file
-        for subdirectory, _, files in os.walk(scan_directory):
+        scan_directory = path_util.resolve_path("portfolio")
+        for directory, _, files in os.walk(scan_directory):
             for file in files:
                 if not any(file.endswith(ext) for ext in self.IGNORED_EXTENSIONS):
-                    file_relative_path = os.path.relpath(os.path.join(subdirectory, file), scan_directory)
-                    new_portfolio_element = PortfolioElement(relative_asset_path=file_relative_path)
-                    elements.append(new_portfolio_element)
+                    abs_path = os.path.join(directory, file)
+                    elements_with_same_name = [element for element in elements if element.get_absolute_asset_path() == abs_path]
+                    if len(elements_with_same_name) == 0:
+                        elements.append(PortfolioElement(absolute_asset_path=abs_path))
+                    else:
+                        raise ValueError(
+                            f"Multiple portfolio elements cannot have the same name: {abs_path} and {elements_with_same_name[0].get_absolute_asset_path()}"
+                        )
         return elements
 
     def get_elements(self):
         return self._elements
 
-    def get_element_by_identifier(self, asset_identifier: str) -> PortfolioElement:
+    def get_element_by_asset_path(self, absolute_asset_path: str) -> PortfolioElement:
+        """Finds a PortfolioElement by its absolute asset path."""
         for element in self._elements:
-            if element.get_asset_identifier() == asset_identifier:
+            if element.get_identifier() == absolute_asset_path:
+                return element
+        return None
+
+    def get_element_by_identifier(self, asset_identifier: str) -> PortfolioElement:
+        """Finds a PortfolioElement by its identifier, i.e. the relative path from the portfolio folder, excluding extensions."""
+        for element in self._elements:
+            if element.get_identifier() == asset_identifier:
                 return element
         return None

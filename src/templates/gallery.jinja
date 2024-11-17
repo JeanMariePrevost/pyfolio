@@ -5,9 +5,8 @@
     <ul>
         {% for element in elements %}
             <li>
-                <a href="{{ element.get_element_page_url() }}">{{ element.get_asset_identifier() }}</a>
-                {# TODO: make the asset text into a tooltip? #}
-                {% if element.get_asset_text() %}<p>{{ element.get_asset_text() }}</p>{% endif %}
+                <a href="{{ element.get_element_page_url() }}">{{ element.get_file_name_without_extension() }}</a>
+                {# TODO: make the asset text into a tooltip? A trimmed, no-formatting version of it? #}
             </li>
         {% endfor %}
     </ul>

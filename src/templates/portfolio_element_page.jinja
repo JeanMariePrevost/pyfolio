@@ -8,7 +8,7 @@
     <div class="asset-container">
         <!-- Display the asset -->
         {% if portfolio_element.get_asset_type() in ['image'] %}
-            <img src="{{ portfolio_element.get_relative_asset_path() }}"
+            <img src="{{ portfolio_element.get_path_relative_to_portfolio() }}"
                  alt="Asset for {{ portfolio_element.get_file_name_without_extension() }}"
                  height="auto"
                  width="auto">
@@ -21,6 +21,6 @@
 
     <div class="markdown-content">
         <!-- Display markdown content -->
-        {{ portfolio_element.get_asset_text() | safe }}
+        {{ portfolio_element.get_caption_html() | safe }}
     </div>
 {% endblock content %}

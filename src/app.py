@@ -4,6 +4,7 @@ import webbrowser
 from threading import Timer
 import markdown
 
+import path_util
 from portfolio import Portfolio
 from portfolio_element import PortfolioElement
 
