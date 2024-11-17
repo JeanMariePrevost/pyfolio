@@ -1,0 +1,7 @@
+{% extends "base_asset_page.jinja" %}
+
+{% block asset_content %}
+    <img src="{{ portfolio_element.get_path_relative_to_portfolio() }}"
+         alt="{{ portfolio_element.get_file_name_without_extension() }}"
+         width="100%">
+{% endblock asset_content %}

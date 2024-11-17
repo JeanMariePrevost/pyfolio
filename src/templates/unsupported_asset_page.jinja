@@ -1,0 +1,6 @@
+{% extends "base_asset_page.jinja" %}
+
+{% block asset_content %}
+    <p>Asset type currently not supported: {{ portfolio_element.get_extension() }}</p>
+    <a href="{{ portfolio_element.get_url_for_page() }}" download>Download Asset</a>
+{% endblock asset_content %}

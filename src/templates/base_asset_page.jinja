@@ -25,17 +25,11 @@
         </div>
 
         <!-- Centered Content -->
-        <div class="asset-container">
-            <!-- Display the asset -->
-            {% if portfolio_element.get_asset_type() in ['image'] %}
-                <img src="{{ portfolio_element.get_path_relative_to_portfolio() }}"
-                     alt="Asset for {{ portfolio_element.get_file_name_without_extension() }}"
-                     height="auto"
-                     width="auto">
-            {% else %}
-                <p>Asset type currently not supported: {{ portfolio_element.get_extension() }}</p>
+        <div class="asset-content">
+            {% block asset_content %}
+                <p>An error occcured while building the page for this asset: {{ portfolio_element.get_extension() }}</p>
                 <a href="{{ portfolio_element.get_url_for_page() }}" download>Download Asset</a>
-            {% endif %}
+            {% endblock asset_content %}
         </div>
 
         <div class="portfolio-item-caption">

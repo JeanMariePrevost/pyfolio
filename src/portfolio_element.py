@@ -5,6 +5,10 @@ import markdown
 
 import path_util
 
+IMAGE_FORMATS = ["jpg", "jpeg", "png", "gif", "bmp", "webp", "svg", "ico", "tiff", "tif"]
+VIDEO_FORMATS = ["mp4", "webm", "ogg", "mov", "avi", "mkv", "flv", "wmv", "3gp", "m4v"]
+AUDIO_FORMATS = ["mp3", "wav", "ogg", "flac", "aac", "m4a", "opus", "wma", "aiff"]
+
 
 class PortfolioElement:
     """
@@ -24,11 +28,14 @@ class PortfolioElement:
 
     def get_asset_type(self) -> str:
         """Return the type of the asset based on the file extension."""
-        extension = self.get_extension()
-        if extension in ["jpg", "png", "gif"]:
+        extension = self.get_extension().lower()
+
+        if extension in IMAGE_FORMATS:
             return "image"
-        elif extension in ["mp4", "webm"]:
+        elif extension in VIDEO_FORMATS:
             return "video"
+        elif extension in AUDIO_FORMATS:
+            return "audio"
         else:
             return "unsupported"
 

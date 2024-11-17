@@ -77,11 +77,26 @@ def portfolio_element_page(asset_identifier):
     """Render a single portfolio element's page."""
     print(f"Requesting portfolio element's page: {asset_identifier}")
     portfolio_element: PortfolioElement = portfolio.get_element_by_identifier(asset_identifier)
+
     if portfolio_element is None:
         abort(404)
 
+    asset_type = portfolio_element.get_asset_type()
+
+    if asset_type == "image":
+        template = "image_page.jinja"
+    elif asset_type == "video":
+        template = "video_page.jinja"
+    elif asset_type == "audio":
+        template = "audio_page.jinja"
+    else:
+        template = "text_page.jinja"
+
+    # DEBUG : Print the template being used
+    print(f"Client requesting asset type: {asset_type}. Using template: {template}")
+
     return render_template(
-        "portfolio_element_page.jinja",
+        template,
         portfolio_element=portfolio_element,
         previous_element=portfolio.get_element_before(portfolio_element),
         next_element=portfolio.get_element_after(portfolio_element),

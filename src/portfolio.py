@@ -27,19 +27,29 @@ class Portfolio:
         elements = []
         scan_directory = path_util.resolve_path("portfolio")
         for directory, _, files in os.walk(scan_directory):
-            for file in files:
-                if not any(file.endswith(ext) for ext in self.IGNORED_EXTENSIONS):
-                    print(f"Portfolio: Including asset: {file}")
-                    abs_path = os.path.join(directory, file)
-                    elements_with_same_name = [element for element in elements if element.get_absolute_asset_path() == abs_path]
-                    if len(elements_with_same_name) == 0:
-                        elements.append(PortfolioElement(absolute_asset_path=abs_path))
-                    else:
-                        raise ValueError(
-                            f"Multiple portfolio elements cannot have the same name: {abs_path} and {elements_with_same_name[0].get_absolute_asset_path()}"
-                        )
-                else:
-                    print(f"Portfolio: Ignoring asset: {file}")
+            for file in os.listdir(directory):
+                absolute_file_path = path_util.resolve_path(os.path.join(directory, file))
+
+                # Skip ignored extensions early
+                if any(file.endswith(ext) for ext in self.IGNORED_EXTENSIONS):
+                    print(f"Portfolio: Skipping non-asset file: {file}")
+                    continue
+
+                # Process valid asset files
+                print(f"Portfolio: Including asset: {file}")
+                new_element = PortfolioElement(absolute_asset_path=absolute_file_path)
+
+                # Check for identifier collisions
+                collision = next((element for element in elements if element.get_identifier() == new_element.get_identifier()), None)
+                if collision:
+                    print(
+                        f"Multiple portfolio elements cannot have the same identifier:\n"
+                        f"- {collision.get_absolute_asset_path()}\n"
+                        f"- {new_element.get_absolute_asset_path()}\n"
+                        f"{new_element.get_absolute_asset_path()} will be ignored."
+                    )
+                    continue
+                elements.append(new_element)
         return elements
 
     def get_elements(self):

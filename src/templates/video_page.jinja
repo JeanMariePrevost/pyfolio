@@ -1,0 +1,9 @@
+{% extends "base_asset_page.jinja" %}
+
+{% block asset_content %}
+    <video controls width="100%">
+        <source src="{{ portfolio_element.get_url_for_asset() }}"
+                type="video/{{ portfolio_element.get_extension() }}">
+        Your browser does not support the video tag.
+    </video>
+{% endblock asset_content %}
