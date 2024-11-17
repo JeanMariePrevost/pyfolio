@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return "<h1>My Portfolio</h1>"
+    return render_template("home.html", text_block="This is a block of plain text passed from app.py.")
 
 
 if __name__ == "__main__":
