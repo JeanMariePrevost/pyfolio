@@ -54,6 +54,21 @@ body {
   border-radius: 5px;
 }
 
+.portfolio-item-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0; /* Optional spacing around navigation */
+}
+
+.portfolio-item-navigation .previous {
+  text-align: left;
+}
+
+.portfolio-item-navigation .next {
+  text-align: right;
+}
+
 .footer {
   background-color: #f4f4f4;
   padding: 20px;

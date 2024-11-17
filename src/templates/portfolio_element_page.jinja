@@ -6,18 +6,22 @@
 
 {% block content %}
     <div class="navigation-frame">
-        <!-- Previous Button -->
-        <div class="navigation-item previous">
-            {% if previous_element %}
-                <a href="{{ previous_element.get_element_page_url() }}">« {{ previous_element.get_file_name_without_extension() }}</a>
-            {% endif %}
-        </div>
 
-        <!-- Next Button -->
-        <div class="navigation-item next">
-            {% if next_element %}
-                <a href="{{ next_element.get_element_page_url() }}">{{ next_element.get_file_name_without_extension() }} »</a>
-            {% endif %}
+        <!-- Next and Previous Items Buttons -->
+        <div class="portfolio-item-navigation">
+            <!-- Previous Button -->
+            <div class="previous">
+                {% if previous_element %}
+                    <a href="{{ previous_element.get_element_page_url() }}">« {{ previous_element.get_file_name_without_extension() }}</a>
+                {% endif %}
+            </div>
+
+            <!-- Next Button -->
+            <div class="next">
+                {% if next_element %}
+                    <a href="{{ next_element.get_element_page_url() }}">{{ next_element.get_file_name_without_extension() }} »</a>
+                {% endif %}
+            </div>
         </div>
 
         <!-- Centered Content -->
