@@ -5,18 +5,25 @@
 
     <div class="gallery-grid">
         {% for portfolio_element in elements %}
-            <!-- DEBUG: for each, simply list the name and path -->
-            {% if portfolio_element.get_asset_type() == "image" %}
+            <a href="{{ portfolio_element.get_url_for_page() }}"
+               class="gallery-item-link">
                 <div class="gallery-item">
-                    <p>{{ portfolio_element.get_path_relative_to_portfolio() }}</p>
-                    <a href="{{ portfolio_element.get_url_for_page() }}">
-                        <img src="{{ portfolio_element.get_url_for_asset() }}"
-                             alt="{{ portfolio_element.get_file_name_without_extension() }}"
-                             width="auto"
-                             height="auto">
-                    </a>
+                    <div class="gallery-item-image">
+                        {% if portfolio_element.get_asset_type() == "image" %}
+                            <img src="{{ portfolio_element.get_url_for_asset() }}"
+                                 alt="{{ portfolio_element.get_file_name_without_extension() }}">
+                        {% else %}
+                            <div class="unsupported-thumbnail">
+                                <p>Thumnbnail not available</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="gallery-item-title">
+                        <p>{{ portfolio_element.get_path_relative_to_portfolio() }}</p>
+                    </div>
                 </div>
-            {% endif %}
+            </a>
         {% endfor %}
     </div>
+
 {% endblock content %}

@@ -29,6 +29,7 @@ class Portfolio:
         for directory, _, files in os.walk(scan_directory):
             for file in files:
                 if not any(file.endswith(ext) for ext in self.IGNORED_EXTENSIONS):
+                    print(f"Portfolio: Including asset: {file}")
                     abs_path = os.path.join(directory, file)
                     elements_with_same_name = [element for element in elements if element.get_absolute_asset_path() == abs_path]
                     if len(elements_with_same_name) == 0:
@@ -37,6 +38,8 @@ class Portfolio:
                         raise ValueError(
                             f"Multiple portfolio elements cannot have the same name: {abs_path} and {elements_with_same_name[0].get_absolute_asset_path()}"
                         )
+                else:
+                    print(f"Portfolio: Ignoring asset: {file}")
         return elements
 
     def get_elements(self):
