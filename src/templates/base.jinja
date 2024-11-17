@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      {% block head_title %}
+        Default Title
+      {% endblock head_title %}
+    </title>
+    <meta name="description" content="Showcase of my projects." />
+    <meta name="keywords" content="portfolio, projects" />
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/styles.css') }}" />
+  </head>
+  <body>
+    <!-- Navbar -->
+    {% block navbar %}
+      <nav class="navbar">
+        <ul>
+          <li>
+            <a href="{{ url_for('home') }}">Home</a>
+          </li>
+          <li>
+            <a href="{{ url_for('gallery') }}">Gallery</a>
+          </li>
+          <li>
+            <a href="{{ url_for('about') }}">About</a>
+          </li>
+          <li>
+            <a href="{{ url_for('contact') }}">Contact</a>
+          </li>
+        </ul>
+      </nav>
+    {% endblock navbar %}
+    <!-- Page Content -->
+    <main>
+      {% block content %}
+        <h1>Default Content</h1>
+        <p>This page did not define any content block</p>
+      {% endblock content %}
+    </main>
+    <!-- Footer -->
+    {% block footer %}
+      <footer class="footer">
+        <div class="footer-content">
+          <div class="legal-info">
+            <p>© 2024 Your Company Name. All rights reserved.</p>
+            <p>
+              <a href="{{ url_for('privacy_policy') }}">Privacy Policy</a>
+              |
+              <a href="{{ url_for('terms_of_service') }}">Terms of Service</a>
+              |
+              <a href="{{ url_for('cookie_policy') }}">Cookie Policy</a>
+            </p>
+          </div>
+          <div class="contact-info">
+            <p>
+              Contact us:
+              <a href="mailto:support@yourcompany.com">support@yourcompany.com</a>
+            </p>
+          </div>
+        </div>
+      </footer>
+    {% endblock footer %}
+  </body>
+</html>
