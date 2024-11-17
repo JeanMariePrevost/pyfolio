@@ -4,6 +4,8 @@ import webbrowser
 from threading import Timer
 import markdown
 
+from portfolio import Portfolio
+
 app = Flask(__name__)
 
 
@@ -63,9 +65,12 @@ def open_browser():
 
 
 if __name__ == "__main__":
-    print("Starting Flask server...")
-    # Check if the script is run by the Flask reloader
-    if not app.debug or "FLASK_RUN_FROM_CLI" not in os.environ:
-        Timer(1, open_browser).start()  # Non-blocking delay before opening the page to let the server start, since the server itself is blocking
+    print("Application starting.")
+    print("Building portfolio structure.")
+    portfolio = Portfolio()
 
+    print("Schedule browser to open in 1 second.")
+    Timer(1, open_browser).start()  # Non-blocking delay before opening the page to let the server start, since the server itself is blocking
+
+    print("Starting Flask server...")
     app.run(debug=True, use_reloader=False)
