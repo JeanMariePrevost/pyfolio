@@ -2,12 +2,21 @@
 
 {% block content %}
     <h1>Gallery</h1>
-    <ul>
-        {% for element in elements %}
-            <li>
-                <a href="{{ element.get_element_page_url() }}">{{ element.get_file_name_without_extension() }}</a>
-                {# TODO: make the asset text into a tooltip? A trimmed, no-formatting version of it? #}
-            </li>
+
+    <div class="gallery-grid">
+        {% for portfolio_element in elements %}
+            <!-- DEBUG: for each, simply list the name and path -->
+            {% if portfolio_element.get_asset_type() == "image" %}
+                <div class="gallery-item">
+                    <p>{{ portfolio_element.get_path_relative_to_portfolio() }}</p>
+                    <a href="{{ portfolio_element.get_url_for_page() }}">
+                        <img src="{{ portfolio_element.get_url_for_asset() }}"
+                             alt="{{ portfolio_element.get_file_name_without_extension() }}"
+                             width="auto"
+                             height="auto">
+                    </a>
+                </div>
+            {% endif %}
         {% endfor %}
-    </ul>
+    </div>
 {% endblock content %}

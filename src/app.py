@@ -66,14 +66,14 @@ This is a **markdown-powered** page. It is rendered from a raw markdown string.
 
 
 @app.route("/portfolio/<path:asset_identifier>.<ext>")
-def serve_portfolio(asset_identifier, ext):
+def portfolio_file(asset_identifier, ext):
     """Serve the portfolio assets files directly when there is an extension, e.g. allow direct access to images."""
     print(f"Requesting portfolio fiel directly: {asset_identifier}.{ext}")
     return send_from_directory("portfolio", asset_identifier + "." + ext)
 
 
 @app.route("/portfolio/<path:asset_identifier>")
-def element(asset_identifier):
+def portfolio_element_page(asset_identifier):
     """Render a single portfolio element's page."""
     print(f"Requesting portfolio element's page: {asset_identifier}")
     portfolio_element: PortfolioElement = portfolio.get_element_by_identifier(asset_identifier)

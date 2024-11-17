@@ -74,6 +74,32 @@ body {
   text-align: center;
 }
 
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px; /* Space between grid items */
+  padding: 20px;
+  margin: 0 auto; /* Center the grid */
+}
+
+.gallery-item {
+  overflow: hidden;
+  border: 1px solid #ddd;
+  border-radius: 5px; /* Rounded corners for a polished look */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  transition: transform 0.15s ease-out;
+}
+
+.gallery-item img {
+  width: 100%; /* Ensure images fit the grid cells */
+  height: auto;
+  display: block; /* Avoid inline spacing issues */
+}
+
+.gallery-item:hover {
+  transform: scale(1.04); /* Slight zoom effect on hover */
+}
+
 .footer {
   background-color: #f4f4f4;
   padding: 20px;

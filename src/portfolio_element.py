@@ -1,5 +1,6 @@
 import os
 
+from flask import url_for
 import markdown
 
 import path_util
@@ -19,14 +20,14 @@ class PortfolioElement:
 
     def get_extension(self) -> str:
         """Return the file extension of the asset."""
-        return os.path.splitext(self._absolute_asset_path)[1]
+        return os.path.splitext(self._absolute_asset_path)[1][1:]
 
     def get_asset_type(self) -> str:
         """Return the type of the asset based on the file extension."""
         extension = self.get_extension()
-        if extension in [".jpg", ".png", ".gif"]:
+        if extension in ["jpg", "png", "gif"]:
             return "image"
-        elif extension in [".mp4", ".webm"]:
+        elif extension in ["mp4", "webm"]:
             return "video"
         else:
             return "unsupported"
@@ -43,9 +44,11 @@ class PortfolioElement:
         """Return just the file name without the directory and extension."""
         return os.path.splitext(self.get_file_name())[0]
 
-    def get_element_page_url(self) -> str:
-        """Return the absolute URL for the asset."""
-        return "/portfolio/" + self.get_file_name_without_extension()
+    def get_url_for_page(self) -> str:
+        return url_for("portfolio_element_page", asset_identifier=self.get_identifier())
+
+    def get_url_for_asset(self) -> str:
+        return url_for("portfolio_file", asset_identifier=self.get_identifier(), ext=self.get_extension())
 
     def get_caption_html(self) -> str:
         """Returns the content of the markdown caption file rendered as HTML."""
