@@ -42,6 +42,20 @@ class Portfolio:
     def get_elements(self):
         return self._elements
 
+    def get_element_before(self, element: PortfolioElement) -> PortfolioElement:
+        """Returns the element before the given element in the portfolio."""
+        index = self._elements.index(element)
+        if index == 0:
+            return None
+        return self._elements[index - 1]
+
+    def get_element_after(self, element: PortfolioElement) -> PortfolioElement:
+        """Returns the element after the given element in the portfolio."""
+        index = self._elements.index(element)
+        if index == len(self._elements) - 1:
+            return None
+        return self._elements[index + 1]
+
     def get_element_by_asset_path(self, absolute_asset_path: str) -> PortfolioElement:
         """Finds a PortfolioElement by its absolute asset path."""
         for element in self._elements:

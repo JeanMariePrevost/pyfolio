@@ -59,7 +59,7 @@ class PortfolioElement:
             with open(asset_text_file_path, "r") as file:
                 return file.read()
         else:
-            return self.get_file_name()
+            return self.get_file_name_without_extension()
 
     def get_identifier(self) -> str:
         """Return the identifier of the asset, which is the directories below /portfolio/ and the filename without extension."""

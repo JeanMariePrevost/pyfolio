@@ -15,6 +15,7 @@ body {
 
 /* Main content block */
 .main-content {
+  padding: 20px 0;
   flex: 1; /* Fill remaining vertical space */
   display: flex;
   flex-direction: column; /* Ensure content stacks vertically */

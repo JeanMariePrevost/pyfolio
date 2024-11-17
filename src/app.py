@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, send_from_directory
+from flask import Flask, abort, render_template, send_from_directory
 import webbrowser
 from threading import Timer
 import markdown
@@ -77,17 +77,14 @@ def element(asset_identifier):
     """Render a single portfolio element's page."""
     print(f"Requesting portfolio element's page: {asset_identifier}")
     portfolio_element: PortfolioElement = portfolio.get_element_by_identifier(asset_identifier)
-
-    if not portfolio_element:
-        return render_template(
-            "text_page.jinja",
-            page_title="Element not found",
-            markdown_content=markdown.markdown("The requested portfolio element was not found.\n\n[Return to the gallery](/gallery)"),
-        )
+    if portfolio_element is None:
+        abort(404)
 
     return render_template(
         "portfolio_element_page.jinja",
         portfolio_element=portfolio_element,
+        previous_element=portfolio.get_element_before(portfolio_element),
+        next_element=portfolio.get_element_after(portfolio_element),
     )
 
 
