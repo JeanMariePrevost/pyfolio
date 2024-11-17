@@ -28,17 +28,25 @@ class PortfolioElement:
         else:
             return "unsupported"
 
-    def get_asset_path(self) -> str:
+    def get_relative_asset_path(self) -> str:
         """Return the relative asset path."""
         return self._relative_asset_path
+
+    def get_absolute_asset_path(self) -> str:
+        """Return the absolute asset path."""
+        return os.path.abspath(self._relative_asset_path)
 
     def get_file_name(self) -> str:
         """Return just the file name without the directory."""
         return os.path.basename(self._relative_asset_path)
 
-    def get_absolute_url(self, base_url: str = "/portfolio/") -> str:
+    def get_file_name_without_extension(self) -> str:
+        """Return just the file name without the directory and extension."""
+        return os.path.splitext(self.get_file_name())[0]
+
+    def get_element_page_url(self, base_url: str = "/portfolio/") -> str:
         """Return the absolute URL for the asset."""
-        return base_url + self._relative_asset_path
+        return base_url + self.get_asset_identifier()
 
     def get_asset_text(self) -> str:
         """Return the markdown text content if available, or an empty string."""

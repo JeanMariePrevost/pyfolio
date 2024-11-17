@@ -1,25 +1,26 @@
 {% extends "base.jinja" %}
 
 {% block head_title %}
-    {{ page_title }}
+    {{ portfolio_element.get_file_name_without_extension() }}
 {% endblock head_title %}
 
 {% block content %}
     <div class="asset-container">
         <!-- Display the asset -->
-        {% if asset_type in ['image'] %}
-            <img src="{{ asset_url }}"
-                 alt="Asset for {{ page_title }}"
+        {% if portfolio_element.get_asset_type() in ['image'] %}
+            <img src="{{ portfolio_element.get_relative_asset_path() }}"
+                 alt="Asset for {{ portfolio_element.get_file_name_without_extension() }}"
                  height="auto"
                  width="auto">
         {% else %}
-            <p>Asset type currently not supported: {{ asset_extension }}</p>
-            <a href="{{ asset_url }}" download>Download Asset</a>
+            <p>Asset type currently not supported: {{ portfolio_element.get_extension() }}</p>
+            <a href="{{ portfolio_element.get_element_page_url('/portfolio/') }}"
+               download>Download Asset</a>
         {% endif %}
     </div>
 
     <div class="markdown-content">
         <!-- Display markdown content -->
-        {{ markdown_content | safe }}
+        {{ portfolio_element.get_asset_text() | safe }}
     </div>
 {% endblock content %}

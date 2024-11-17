@@ -83,17 +83,9 @@ def element(asset_identifier):
             markdown_content=markdown.markdown("The requested portfolio element was not found.\n\n[Return to the gallery](/gallery)"),
         )
 
-    # Determine asset type based on file extension
-    extension = portfolio_element.get_extension()
-    asset_type = portfolio_element.get_asset_type()
-
     return render_template(
         "portfolio_element_page.jinja",
-        page_title=portfolio_element.get_file_name(),
-        asset_url=portfolio_element.get_absolute_url("/portfolio/"),
-        asset_type=asset_type,
-        asset_extension=extension,
-        markdown_content=portfolio_element.get_asset_text(),
+        portfolio_element=portfolio_element,
     )
 
 
