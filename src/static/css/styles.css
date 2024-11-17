@@ -15,7 +15,10 @@ body {
 
 /* Main content block */
 .main-content {
-  flex: 1; /* Fills the remaining space above the footer when the page is very short */
+  flex: 1; /* Fill remaining vertical space */
+  display: flex;
+  flex-direction: column; /* Ensure content stacks vertically */
+  align-items: center; /* Centers child elements horizontally */
 }
 
 /* Navbar Styling */

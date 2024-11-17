@@ -58,8 +58,9 @@ def cookie_policy():
 def markdown_test():
     raw_markdown = """# This is a markdown test page
 
-This is a **markdown-powered** page.
+This is a **markdown-powered** page. It is rendered from a raw markdown string.
 """
+    raw_markdown += "\n\n\nScrolling test...." * 100  # Add a lot of newlines to test the scrolling
     rendered_markdown = markdown.markdown(raw_markdown)
     return render_template("text_page.jinja", page_title="Markdown Test Page", markdown_content=rendered_markdown)
 
