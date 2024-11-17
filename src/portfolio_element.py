@@ -14,6 +14,20 @@ class PortfolioElement:
         """The path of the asset, relative to the portfolio folder, without the file extension."""
         return os.path.splitext(self._relative_asset_path)[0]
 
+    def get_extension(self) -> str:
+        """Return the file extension of the asset."""
+        return os.path.splitext(self._relative_asset_path)[1]
+
+    def get_asset_type(self) -> str:
+        """Return the type of the asset based on the file extension."""
+        extension = self.get_extension()
+        if extension in [".jpg", ".png", ".gif"]:
+            return "image"
+        elif extension in [".mp4", ".webm"]:
+            return "video"
+        else:
+            return "unsupported"
+
     def get_asset_path(self) -> str:
         """Return the relative asset path."""
         return self._relative_asset_path
@@ -33,4 +47,4 @@ class PortfolioElement:
             with open(asset_text_file_path, "r") as file:
                 return file.read()
         else:
-            return ""
+            return self.get_file_name()

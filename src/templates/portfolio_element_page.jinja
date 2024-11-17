@@ -1,0 +1,25 @@
+{% extends "base.jinja" %}
+
+{% block head_title %}
+    {{ page_title }}
+{% endblock head_title %}
+
+{% block content %}
+    <div class="asset-container">
+        <!-- Display the asset -->
+        {% if asset_type in ['image'] %}
+            <img src="{{ asset_url }}"
+                 alt="Asset for {{ page_title }}"
+                 height="auto"
+                 width="auto">
+        {% else %}
+            <p>Asset type currently not supported: {{ asset_extension }}</p>
+            <a href="{{ asset_url }}" download>Download Asset</a>
+        {% endif %}
+    </div>
+
+    <div class="markdown-content">
+        <!-- Display markdown content -->
+        {{ markdown_content | safe }}
+    </div>
+{% endblock content %}

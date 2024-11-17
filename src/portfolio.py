@@ -35,3 +35,9 @@ class Portfolio:
 
     def get_elements(self):
         return self._elements
+
+    def get_element_by_identifier(self, asset_identifier: str) -> PortfolioElement:
+        for element in self._elements:
+            if element.get_asset_identifier() == asset_identifier:
+                return element
+        return None

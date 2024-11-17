@@ -5,6 +5,7 @@ from threading import Timer
 import markdown
 
 from portfolio import Portfolio
+from portfolio_element import PortfolioElement
 
 app = Flask(__name__)
 
@@ -62,10 +63,38 @@ This is a **markdown-powered** page.
     return render_template("text_page.jinja", page_title="Markdown Test Page", markdown_content=rendered_markdown)
 
 
-@app.route("/portfolio/<path:filename>")
-def serve_portfolio(filename):
-    """Serve the portfolio assets directly, e.g. allow direct access to images."""
-    return send_from_directory("portfolio", filename)
+@app.route("/portfolio/<path:asset_identifier>.<ext>")
+def serve_portfolio(asset_identifier, ext):
+    """Serve the portfolio assets files directly when there is an extension, e.g. allow direct access to images."""
+    print(f"Requesting portfolio fiel directly: {asset_identifier}.{ext}")
+    return send_from_directory("portfolio", asset_identifier + "." + ext)
+
+
+@app.route("/portfolio/<path:asset_identifier>")
+def element(asset_identifier):
+    """Render a single portfolio element's page."""
+    print(f"Requesting portfolio element's page: {asset_identifier}")
+    portfolio_element: PortfolioElement = portfolio.get_element_by_identifier(asset_identifier)
+
+    if not portfolio_element:
+        return render_template(
+            "text_page.jinja",
+            page_title="Element not found",
+            markdown_content=markdown.markdown("The requested portfolio element was not found.\n\n[Return to the gallery](/gallery)"),
+        )
+
+    # Determine asset type based on file extension
+    extension = portfolio_element.get_extension()
+    asset_type = portfolio_element.get_asset_type()
+
+    return render_template(
+        "portfolio_element_page.jinja",
+        page_title=portfolio_element.get_file_name(),
+        asset_url=portfolio_element.get_absolute_url("/portfolio/"),
+        asset_type=asset_type,
+        asset_extension=extension,
+        markdown_content=portfolio_element.get_asset_text(),
+    )
 
 
 def open_browser():
