@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   track.appendChild(firstClone);
   track.insertBefore(lastClone, slides[0]);
+  const defaultTransition = track.style.transition; // Store default transition
 
   const updatedSlides = Array.from(track.children);
   const slideWidth = slides[0].getBoundingClientRect().width;
@@ -32,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
   dots[0].classList.add("active");
 
   function updateCarousel() {
-    track.style.transition = "transform 0.5s ease-in-out";
+    track.style.transition = defaultTransition;
     track.style.transform = `translateX(${-slideWidth * currentIndex}px)`;
     updateDots();
   }

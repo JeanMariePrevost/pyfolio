@@ -236,7 +236,8 @@ h6 {
 
 .carousel-track {
   display: flex;
-  transition: transform 0.5s ease-in-out;
+  transition: transform 1.2s cubic-bezier(0.34, 0.25, 0.37, 1); /* Smooth easing */
+  will-change: transform; /* Optimize for smoother rendering */
 }
 
 .carousel-slide img {
