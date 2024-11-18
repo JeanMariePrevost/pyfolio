@@ -4,6 +4,7 @@ from threading import Timer
 import markdown
 
 import config_manager
+import path_util
 from portfolio import Portfolio
 from portfolio_element import PortfolioElement
 
@@ -11,57 +12,29 @@ app = Flask(__name__)  # Create the Flask app instance
 
 
 @app.route("/")
-def home():
+def serve_home():
     return render_template("home.jinja", text_block="This is a block of plain text passed from app.py.")
 
 
 @app.route("/gallery")
-def gallery():
+def serve_gallery():
     print("User")
     list_of_elements = portfolio.get_elements()
     print(f"Found {len(list_of_elements)} elements in the portfolio.")
     return render_template("gallery.jinja", elements=portfolio.get_elements())
 
 
-@app.route("/about")
-def about():
-    # TODO : Currently a placeholder
-    return "This page has not yet been defined."
-
-
-@app.route("/contact")
-def contact():
-    # TODO : Currently a placeholder
-    return "This page has not yet been defined."
-
-
-@app.route("/privacy_policy")
-def privacy_policy():
-    # TODO : Currently a placeholder
-    return "This page has not yet been defined."
-
-
-@app.route("/terms_of_service")
-def terms_of_service():
-    # TODO : Currently a placeholder
-    return "This page has not yet been defined."
-
-
-@app.route("/cookie_policy")
-def cookie_policy():
-    # TODO : Currently a placeholder
-    return "This page has not yet been defined."
-
-
-@app.route("/markdown_test")
-def markdown_test():
-    raw_markdown = """# This is a markdown test page
-
-This is a **markdown-powered** page. It is rendered from a raw markdown string.
-"""
-    raw_markdown += "\n\n\nScrolling test...." * 100  # Add a lot of newlines to test the scrolling
-    rendered_markdown = markdown.markdown(raw_markdown)
-    return render_template("text_page.jinja", page_title="Markdown Test Page", markdown_content=rendered_markdown)
+@app.route("/<path:page>")
+def serve_page(page):
+    markdown_file = path_util.resolve_path(f"custom_pages/{page}.md")
+    try:
+        # read with utf-8 encoding
+        with open(markdown_file, "r", encoding="utf-8") as file:
+            markdown_text = file.read()
+            rendered_markdown = markdown.markdown(markdown_text)
+            return render_template("text_page.jinja", markdown_content=rendered_markdown)
+    except FileNotFoundError:
+        abort(404)
 
 
 @app.route("/portfolio/<path:asset_identifier>.<ext>")
@@ -104,15 +77,6 @@ def portfolio_element_page(asset_identifier):
 
 def open_browser():
     webbrowser.open_new("http://127.0.0.1:5000/")
-
-
-# DEBUG : This is a temporary test to see if the location is the issue
-# @__app.context_processor
-# def inject_config():
-#     """
-#     Injects the configuration into the Jinja2 templates.
-#     """
-#     return dict(config=config_manager._config_dict)
 
 
 if __name__ == "__main__":
