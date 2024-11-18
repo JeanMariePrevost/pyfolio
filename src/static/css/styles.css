@@ -222,7 +222,7 @@ h6 {
   max-width: 800px; /* Define a maximum width */
   margin: 0 auto; /* Center the carousel */
   position: relative;
-  overflow: visible;
+  overflow: hidden;
   display: flex; /* Flexbox ensures proper alignment of slides */
   width: 100%; /* Allow responsiveness */
   max-width: 800px; /* Limit width to a reasonable size */
@@ -259,4 +259,31 @@ h6 {
 
 .carousel button.next {
   right: 10px;
+}
+
+.carousel-indicators {
+  display: flex; /* Arrange buttons in a row */
+  justify-content: center; /* Center the dots horizontally */
+  gap: 10px; /* Add space between dots */
+  position: absolute; /* Keep it positioned over the carousel */
+  bottom: 20px; /* Adjust the position from the bottom */
+  left: 0;
+  right: 0;
+  z-index: 2; /* Ensure it appears above other elements */
+}
+
+.carousel-indicators button {
+  position: static; /* Reset inherited absolute positioning */
+  display: inline-block; /* Ensure buttons behave like normal elements */
+  width: 12px;
+  height: 12px;
+  background-color: #ccc;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  flex-shrink: 0; /* Prevent resizing */
+}
+
+.carousel-indicators button.active {
+  background-color: #666; /* Highlight active dot */
 }
