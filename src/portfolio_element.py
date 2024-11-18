@@ -52,10 +52,10 @@ class PortfolioElement:
         return os.path.splitext(self.get_file_name())[0]
 
     def get_url_for_page(self) -> str:
-        return url_for("portfolio_element_page", asset_identifier=self.get_identifier())
+        return url_for("serve_portfolio", path=self.get_identifier())
 
     def get_url_for_asset(self) -> str:
-        return url_for("portfolio_file", asset_identifier=self.get_identifier(), ext=self.get_extension())
+        return url_for("serve_portfolio", path=self.get_identifier() + "." + self.get_extension())
 
     def get_caption_html(self) -> str:
         """Returns the content of the markdown caption file rendered as HTML."""

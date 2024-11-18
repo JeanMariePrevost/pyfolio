@@ -37,15 +37,22 @@ def serve_page(page):
         abort(404)
 
 
-@app.route("/portfolio/<path:asset_identifier>.<ext>")
-def portfolio_file(asset_identifier, ext):
+@app.route("/portfolio/<path:path>")
+def serve_portfolio(path):
+    # determine if direct file (has extension) or portfolio element
+    if "." in path:
+        return serve_portfolio_file(path)
+    else:
+        return serve_portfolio_page(path)
+
+
+def serve_portfolio_file(path):
     """Serve the portfolio assets files directly when there is an extension, e.g. allow direct access to images."""
-    print(f"Requesting portfolio fiel directly: {asset_identifier}.{ext}")
-    return send_from_directory("portfolio", asset_identifier + "." + ext)
+    print(f"Requesting portfolio file directly: {path}")
+    return send_from_directory("portfolio", path)
 
 
-@app.route("/portfolio/<path:asset_identifier>")
-def portfolio_element_page(asset_identifier):
+def serve_portfolio_page(asset_identifier):
     """Render a single portfolio element's page."""
     print(f"Requesting portfolio element's page: {asset_identifier}")
     portfolio_element: PortfolioElement = portfolio.get_element_by_identifier(asset_identifier)
