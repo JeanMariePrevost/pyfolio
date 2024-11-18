@@ -68,6 +68,8 @@
         <div class="footer-content">
           <div class="legal-info">
             <p>{{ config.footer_copyright_notice }}</p>
+          </div>
+          <div class="footer-links">
             <p>
               {% for link in config.footer_link %}
                 <a href="{{ link.target }}">{{ link.label }}</a>

@@ -24,28 +24,28 @@ keywords = "portfolio, projects"
 # These override the default CSS styles
 # Delete, comment out or set to "default" to use the default styles or to work with the styles.css file directly
 # Supports hex colors, e.g. "#ff0000", color names, e.g. "red", and "default" to not override styles.css
-# [style]
-# accent_color = "default"                # Primary accent, e.g. navbar, buttons
-# accent_hover_color = "#439e46"          # Hover/active state for accents
-# background_color = "#f9f9f9"            # Page background
-# background_color_card = "#ffffff"       # Background for cards
-# background_color_footer = "#f4f4f4"     # Background for footer
-# background_color_grayed_out = "#f0f0f0" # Background for disabled elements
-# text_color = "#333333"                  # Main text color
-# text_color_footer = "#666666"           # Text color for footer
-# text_color_footer_link = "#007bff"      # Text color for footer links
-# text_secondary_color = "#666666"        # Subtle or secondary text
-# text_light_color = "#999999"            # Lighter text for placeholders
-# text_accent_color = "#ffffff"           # Text color for links
-# border_color = "#dddddd"                # Borders and separators
+[style]
+accent_color = "#252a2b"                # Main color for buttons, links, and highlights
+accent_hover_color = "#1d2021"          # Darker shade for hover or active states
+background_color = "#d9d9d9"            # Page background, soft and neutral
+background_color_card = "#ffffff"       # Card background, usually white for contrast
+background_color_footer = "#f6f6f5"     # Footer background, subtly distinct
+background_color_grayed_out = "#eaeaea" # Background for disabled or inactive elements
+text_color = "#2b2b2b"                  # Main text color
+text_color_footer = "#5c5c5c"           # Footer text, muted gray
+text_color_footer_link = "#4a4a4a"      # Footer link color, matching accents
+text_secondary_color = "#6d6d6d"        # Softer color for secondary text
+text_light_color = "#a0a0a0"            # Light color for placeholders
+text_accent_color = "#ffffff"           # Text color on accent elements, typically white
+border_color = "#d9d9d9"                # Neutral color for borders and dividers
 
-# font_family = "Arial, sans-serif"    # Base font family
-# heading_font_family = "Arial, serif" # Font for headings
-# base_font_size = "16px"              # Base font size
+font_family = "Lato, sans-serif"         # Font for most text, modern and clean
+heading_font_family = "Lato, sans-serif" # Font for headings, slightly bolder
+base_font_size = "16px"                  # Default text size, readable
 
-# gallery_card_height = "250px" # Height of gallery cards
-# gallery_card_width = "200px"  # Width of gallery cards
-# gallery_grid_gap = "15px"     # Gap between gallery cards
+gallery_card_height = "250px" # Height of gallery cards
+gallery_card_width = "200px"  # Width of gallery cards
+gallery_grid_gap = "15px"     # Space between gallery cards
 
 
 [[top_link]]

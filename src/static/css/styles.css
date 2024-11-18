@@ -1,28 +1,27 @@
 :root {
-  /* Colors */
-  --accent-color: #4caf50; /* Primary accent, e.g. navbar, buttons */
-  --accent-hover-color: #439e46; /* Hover/active state for accents */
-  --background-color: #f9f9f9; /* Page background */
-  --background-color-card: #ffffff; /* Background for cards */
-  --background-color-footer: #f4f4f4; /* Background for footer */
-  --background-color-grayed-out: #f0f0f0; /* Background for disabled elements */
-  --text-color: #333333; /* Main text color */
-  --text-color-footer: #666666; /* Text color for footer */
-  --text-color-footer-link: #007bff; /* Text color for footer links */
-  --text-secondary-color: #666666; /* Subtle or secondary text */
-  --text-light-color: #999999; /* Lighter text for placeholders */
-  --text-accent-color: #ffffff; /* Text color for links */
-  --border-color: #dddddd; /* Borders and separators */
+  --accent-color: #252a2b; /* Main color for buttons, links, and highlights */
+  --accent-hover-color: #1d2021; /* Darker shade for hover or active states */
+  --background-color: #d9d9d9; /* Page background, soft and neutral */
+  --background-color-card: #ffffff; /* Card background, usually white for contrast */
+  --background-color-footer: #f6f6f5; /* Footer background, subtly distinct */
+  --background-color-grayed-out: #eaeaea; /* Background for disabled or inactive elements */
+  --text-color: #2b2b2b; /* Main text color */
+  --text-color-footer: #5c5c5c; /* Footer text, muted gray */
+  --text-color-footer-link: #4a4a4a; /* Footer link color, matching accents */
+  --text-secondary-color: #6d6d6d; /* Softer color for secondary text */
+  --text-light-color: #a0a0a0; /* Light color for placeholders */
+  --text-accent-color: #ffffff; /* Text color on accent elements, typically white */
+  --border-color: #d9d9d9; /* Neutral color for borders and dividers */
 
   /* Typography */
-  --font-family: Arial, sans-serif; /* Base font family */
-  --heading-font-family: Arial, serif; /* Font for headings */
-  --base-font-size: 16px; /* Base font size */
+  --font-family: "Lato, sans-serif"; /* Font for most text, modern and clean */
+  --heading-font-family: "Lato, sans-serif"; /* Font for headings, slightly bolder */
+  --base-font-size: 16px; /* Default text size, readable */
 
   /* Layout */
   --gallery-card-height: 250px; /* Height of gallery cards */
   --gallery-card-width: 200px; /* Width of gallery cards */
-  --gallery-grid-gap: 15px; /* Gap between gallery cards */
+  --gallery-grid-gap: 15px; /* Space between gallery cards */
 }
 
 /* General Body Styling */
@@ -188,14 +187,14 @@ h6 {
 .footer {
   background-color: var(--background-color-footer);
   color: var(--text-color-footer);
-  padding: 20px;
+  padding: 6px 0;
   text-align: center;
   border-top: 1px solid #ddd;
 }
 
 .footer-content {
   max-width: 800px;
-  margin: 0 auto;
+  margin: 0 auto; /* Center content */
 }
 
 .footer a {
@@ -209,9 +208,12 @@ h6 {
 
 .legal-info,
 .contact-info {
-  margin-bottom: 10px;
+  margin: 0;
 }
 
-.legal-info p {
-  margin: 5px 0;
+.legal-info p,
+.contact-info p,
+.footer-links p {
+  font-size: small;
+  margin: 2px 0;
 }
