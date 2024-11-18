@@ -1,16 +1,54 @@
+:root {
+  /* Colors */
+  --accent-color: #4caf50; /* Primary accent, e.g. navbar, buttons */
+  --accent-hover-color: #439e46; /* Hover/active state for accents */
+  --background-color: #f9f9f9; /* Page background */
+  --background-color-card: #ffffff; /* Background for cards */
+  --background-color-footer: #f4f4f4; /* Background for footer */
+  --background-color-grayed-out: #f0f0f0; /* Background for disabled elements */
+  --text-color: #333333; /* Main text color */
+  --text-color-footer: #666666; /* Text color for footer */
+  --text-color-footer-link: #007bff; /* Text color for footer links */
+  --text-secondary-color: #666666; /* Subtle or secondary text */
+  --text-light-color: #999999; /* Lighter text for placeholders */
+  --text-accent-color: #ffffff; /* Text color for links */
+  --border-color: #dddddd; /* Borders and separators */
+
+  /* Typography */
+  --font-family: Arial, sans-serif; /* Base font family */
+  --heading-font-family: Arial, serif; /* Font for headings */
+  --base-font-size: 16px; /* Base font size */
+
+  /* Layout */
+  --gallery-card-height: 250px; /* Height of gallery cards */
+  --gallery-card-width: 200px; /* Width of gallery cards */
+  --gallery-grid-gap: 15px; /* Gap between gallery cards */
+}
+
 /* General Body Styling */
 html,
 body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f0f0f0;
-  color: #333;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-size: var(--base-font-size);
   line-height: 1.6;
 
   height: 100%;
   display: flex;
   flex-direction: column; /* Stack elements vertically */
+}
+
+/* Heading Styling */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--heading-font-family);
 }
 
 /* Main content block */
@@ -24,8 +62,8 @@ body {
 
 /* Navbar Styling */
 .navbar {
-  background-color: #4caf50; /* Green background */
-  color: white;
+  background-color: var(--accent-color);
+  color: var(--text-accent-color);
   padding: 10px 0;
 }
 
@@ -43,14 +81,14 @@ body {
 }
 
 .navbar a {
-  color: white;
+  color: var(--text-accent-color);
   text-decoration: none;
   font-size: 1.2rem;
   padding: 5px 10px;
 }
 
 .navbar a:hover {
-  background-color: #45a049; /* Slightly darker green on hover */
+  background-color: var(--accent-hover-color);
   border-radius: 5px;
 }
 
@@ -76,8 +114,8 @@ body {
 
 .gallery-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 15px;
+  grid-template-columns: repeat(auto-fit, minmax(var(--gallery-card-width), 1fr));
+  gap: var(--gallery-grid-gap);
   padding: 20px;
   width: 100%;
   max-width: 1200px;
@@ -88,15 +126,13 @@ body {
   display: flex;
   flex-direction: column; /* Stack image and title vertically */
   align-items: stretch; /* Ensures elements fill their parent */
-  border: 1px solid #ddd;
+  border: 1px solid var(--border-color);
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   overflow: hidden; /* Prevents content from overflowing the container */
-  height: 250px; /* Total height of the card */
+  height: var(--gallery-card-height);
   transition: transform 0.15s ease-out;
   text-decoration: none;
-  /* text-decoration-line: none; */
-  /* text-decoration-style: none; */
 }
 
 .gallery-item-link {
@@ -127,10 +163,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #f0f0f0;
+  background-color: var(--background-color-grayed-out);
   height: 100%;
   width: 100%;
-  color: #888;
+  color: var(--text-light-color);
   text-align: center;
 }
 
@@ -138,8 +174,8 @@ body {
   padding: 10px;
   text-align: center;
   font-size: 14px;
-  color: #555;
-  background-color: #fafafa;
+  color: var(--text-secondary-color);
+  background-color: var(--background-color-card);
   border-top: 1px solid #ddd;
   height: auto; /* Adjusts based on title content */
 }
@@ -150,7 +186,8 @@ body {
 }
 
 .footer {
-  background-color: #f4f4f4;
+  background-color: var(--background-color-footer);
+  color: var(--text-color-footer);
   padding: 20px;
   text-align: center;
   border-top: 1px solid #ddd;
@@ -162,7 +199,7 @@ body {
 }
 
 .footer a {
-  color: #007bff;
+  color: var(--text-color-footer-link);
   text-decoration: none;
 }
 
