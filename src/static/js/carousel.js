@@ -4,10 +4,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const prevButton = document.querySelector(".prev");
   const nextButton = document.querySelector(".next");
   const indicatorsContainer = document.querySelector(".carousel-indicators");
+  const carousel = document.querySelector(".carousel");
 
   let currentIndex = 1;
+  let autoPlayInterval;
 
-  // Clone slides (already implemented in the last improvement)
+  const autoPlayDelay = 3000; // Time between slides in milliseconds
+
+  // Initialize clones (from earlier improvement)
   const firstClone = slides[0].cloneNode(true);
   const lastClone = slides[slides.length - 1].cloneNode(true);
 
@@ -17,10 +21,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const updatedSlides = Array.from(track.children);
   const slideWidth = slides[0].getBoundingClientRect().width;
 
-  // Create dots
+  // Generate indicators (from earlier improvement)
   slides.forEach((_, i) => {
     const dot = document.createElement("button");
-    dot.dataset.index = i + 1; // Match with slide index
+    dot.dataset.index = i + 1;
     indicatorsContainer.appendChild(dot);
   });
 
@@ -58,8 +62,23 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  track.addEventListener("transitionend", handleTransitionEnd);
+  // Auto-play functionality
+  function startAutoPlay() {
+    autoPlayInterval = setInterval(() => {
+      currentIndex = (currentIndex + 1) % updatedSlides.length;
+      updateCarousel();
+    }, autoPlayDelay);
+  }
 
+  function stopAutoPlay() {
+    clearInterval(autoPlayInterval);
+  }
+
+  // Attach events for hover pause
+  carousel.addEventListener("mouseenter", stopAutoPlay);
+  carousel.addEventListener("mouseleave", startAutoPlay);
+
+  // Button and dot functionality
   prevButton.addEventListener("click", () => {
     currentIndex = (currentIndex - 1 + updatedSlides.length) % updatedSlides.length;
     updateCarousel();
@@ -78,6 +97,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  // Start auto-play on page load
+  startAutoPlay();
+
   // Initialize position
   track.style.transform = `translateX(${-slideWidth * currentIndex}px)`;
+  track.addEventListener("transitionend", handleTransitionEnd);
 });
