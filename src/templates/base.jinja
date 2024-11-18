@@ -8,10 +8,39 @@
         {{ config.metadata.title }}
       {% endblock head_title %}
     </title>
-    <meta name="description" content={{ config.metadata.description }} />
-    <meta name="keywords" content={{ config.metadata.keywords }} />
+    <meta name="description" content="{{ config.metadata.description }}" />
+    <meta name="keywords" content="{{ config.metadata.keywords }}" />
     <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/styles.css') }}" />
+          href="{{ url_for('static', filename='css/styles.css') | safe }}" />
+    {% block injected_css %}
+      <style>
+        :root {
+          {% if config.style.accent_color is defined %}--accent-color: {{ config.style.accent_color }};{% endif %}
+          {% if config.style.accent_hover_color is defined %}--accent-hover-color: {{ config.style.accent_hover_color }};{% endif %}
+          {% if config.style.background_color is defined %}--background-color: {{ config.style.background_color }};{% endif %}
+          {% if config.style.background_color_card is defined %}--background-color-card: {{ config.style.background_color_card }};{% endif %}
+          {% if config.style.background_color_footer is defined %}--background-color-footer: {{ config.style.background_color_footer }};{% endif %}
+          {% if config.style.background_color_grayed_out is defined %}--background-color-grayed-out: {{ config.style.background_color_grayed_out }};{% endif %}
+          {% if config.style.text_color is defined %}--text-color: {{ config.style.text_color }};{% endif %}
+          {% if config.style.text_color_footer is defined %}--text-color-footer: {{ config.style.text_color_footer }};{% endif %}
+          {% if config.style.text_color_footer_link is defined %}--text-color-footer-link: {{ config.style.text_color_footer_link }};{% endif %}
+          {% if config.style.text_secondary_color is defined %}--text-secondary-color: {{ config.style.text_secondary_color }};{% endif %}
+          {% if config.style.text_light_color is defined %}--text-light-color: {{ config.style.text_light_color }};{% endif %}
+          {% if config.style.text_accent_color is defined %}--text-accent-color: {{ config.style.text_accent_color }};{% endif %}
+          {% if config.style.border_color is defined %}--border-color: {{ config.style.border_color }};{% endif %}
+
+          /* Typography */
+          {% if config.style.font_family is defined %}--font-family: {{ config.style.font_family }};{% endif %}
+          {% if config.style.heading_font_family is defined %}--heading-font-family: {{ config.style.heading_font_family }};{% endif %}
+          {% if config.style.base_font_size is defined %}--base-font-size: {{ config.style.base_font_size }};{% endif %}
+
+          /* Layout */
+          {% if config.style.gallery_card_height is defined %}--gallery-card-height: {{ config.style.gallery_card_height }};{% endif %}
+          {% if config.style.gallery_card_width is defined %}--gallery-card-width: {{ config.style.gallery_card_width }};{% endif %}
+          {% if config.style.gallery_grid_gap is defined %}--gallery-grid-gap: {{ config.style.gallery_grid_gap }};{% endif %}
+        }
+      </style>
+    {% endblock injected_css %}
   </head>
   <body>
     <!-- Navbar -->

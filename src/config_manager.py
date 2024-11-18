@@ -21,6 +21,7 @@ def load_configs(app: Flask):
             global _config_dict
             _config_dict = toml.load(config_file)
             resolve_config_link_targets()
+            parse_style_configs()
     except FileNotFoundError:
         raise FileNotFoundError(f"Configuration file not found at path: {config_path}")
     except toml.TomlDecodeError as e:
@@ -35,6 +36,23 @@ def load_configs(app: Flask):
         Injects the configuration into the Jinja2 templates.
         """
         return dict(config=_config_dict)
+
+
+def parse_style_configs():
+    """
+    Parses the style configurations from the configuration dictionary to make it adequate for the Jinja2 templates and/or add extra behaviors
+    """
+    global _config_dict
+
+    try:
+        # Make None all empty strings or values of "default" as they are explicit "non-overrides"
+        for key, value in _config_dict["style"].items():
+            if value == "" or value == "default":
+                _config_dict["style"] = None
+    except KeyError:
+        print("No style configuration found in the configuration file. All deleted/disabled?")
+        # create an empty style configuration dictionary
+        _config_dict["style"] = {}
 
 
 def resolve_config_link_targets():

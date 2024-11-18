@@ -20,6 +20,34 @@ description = "Showcase of my projects."
 keywords = "portfolio, projects"
 
 
+# General theme/styling configs
+# These override the default CSS styles
+# Delete, comment out or set to "default" to use the default styles or to work with the styles.css file directly
+# Supports hex colors, e.g. "#ff0000", color names, e.g. "red", and "default" to not override styles.css
+# [style]
+# accent_color = "default"                # Primary accent, e.g. navbar, buttons
+# accent_hover_color = "#439e46"          # Hover/active state for accents
+# background_color = "#f9f9f9"            # Page background
+# background_color_card = "#ffffff"       # Background for cards
+# background_color_footer = "#f4f4f4"     # Background for footer
+# background_color_grayed_out = "#f0f0f0" # Background for disabled elements
+# text_color = "#333333"                  # Main text color
+# text_color_footer = "#666666"           # Text color for footer
+# text_color_footer_link = "#007bff"      # Text color for footer links
+# text_secondary_color = "#666666"        # Subtle or secondary text
+# text_light_color = "#999999"            # Lighter text for placeholders
+# text_accent_color = "#ffffff"           # Text color for links
+# border_color = "#dddddd"                # Borders and separators
+
+# font_family = "Arial, sans-serif"    # Base font family
+# heading_font_family = "Arial, serif" # Font for headings
+# base_font_size = "16px"              # Base font size
+
+# gallery_card_height = "250px" # Height of gallery cards
+# gallery_card_width = "200px"  # Width of gallery cards
+# gallery_grid_gap = "15px"     # Gap between gallery cards
+
+
 [[top_link]]
 label = "Home"
 target = "[home]"
