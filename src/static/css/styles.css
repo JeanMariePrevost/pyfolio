@@ -231,20 +231,12 @@ h6 {
 }
 
 .carousel-slide {
-  min-width: 100%;
-  transition: transform 0.5s ease-in-out;
   flex: 0 0 100%; /* Each slide takes 100% of the carousel's width */
-  height: 100%; /* Match the height of the carousel */
-  display: flex; /* Optional: For centering content within the slide */
-  /* justify-content: center; */
-  /* align-items: center; */
 }
 
-.carousel button {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 2;
+.carousel-track {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
 }
 
 .carousel-slide img {
@@ -252,6 +244,13 @@ h6 {
   height: 100%; /* Scale to fill the slide height */
   object-fit: cover; /* Keep aspect ratio while covering the area */
   display: block; /* Prevent inline spacing issues */
+}
+
+.carousel button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
 }
 
 .carousel button.prev {
