@@ -1,5 +1,24 @@
 {% extends "base.jinja" %}
 {% block content %}
+    <script src="{{ url_for('static', filename='js/carousel.js') }}"></script>
     <h1>{{ config.metadata.title }}</h1>
     <p>{{ text_block }}</p>
+
+    <div class="carousel">
+        <div class="carousel-slide">
+            <img src="{{ url_for('serve_portfolio', path='Abstract Platformer Sample.png') }}"
+                 alt="Slide 1">
+        </div>
+        <div class="carousel-slide">
+            <img src="{{ url_for('serve_portfolio', path='Axonometric Blocks Sample 1.png') }}"
+                 alt="Slide 2">
+        </div>
+        <div class="carousel-slide">
+            <img src="{{ url_for('serve_portfolio', path='Fish Pack Preview.png') }}"
+                 alt="Slide 3">
+        </div>
+        <button class="prev">Previous</button>
+        <button class="next">Next</button>
+    </div>
+
 {% endblock content %}
