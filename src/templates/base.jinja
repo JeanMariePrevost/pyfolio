@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
       {% block head_title %}
-        Default Title
+        {{ config.metadata.title }}
       {% endblock head_title %}
     </title>
-    <meta name="description" content="Showcase of my projects." />
-    <meta name="keywords" content="portfolio, projects" />
+    <meta name="description" content={{ config.metadata.description }} />
+    <meta name="keywords" content={{ config.metadata.keywords }} />
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/styles.css') }}" />
   </head>
@@ -38,7 +38,7 @@
       <footer class="footer">
         <div class="footer-content">
           <div class="legal-info">
-            <p>© 2024 Your Company Name. All rights reserved.</p>
+            <p>{{ config.footer_copyright_notice }}</p>
             <p>
               {% for link in config.footer_link %}
                 <a href="{{ link.target }}">{{ link.label }}</a>
@@ -47,10 +47,7 @@
             </p>
           </div>
           <div class="contact-info">
-            <p>
-              Contact us:
-              <a href="mailto:support@yourcompany.com">support@yourcompany.com</a>
-            </p>
+            <p>{{ config.footer_contact_info }}</p>
           </div>
         </div>
       </footer>

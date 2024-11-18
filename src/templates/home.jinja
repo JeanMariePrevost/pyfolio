@@ -1,8 +1,5 @@
 {% extends "base.jinja" %}
-{% block head_title %}
-    {# TODO : Title as variable? Read from config? #}
-{% endblock head_title %}
 {% block content %}
-    <h1>This is the homepage title</h1>
+    <h1>{{ config.metadata.title }}</h1>
     <p>{{ text_block }}</p>
 {% endblock content %}

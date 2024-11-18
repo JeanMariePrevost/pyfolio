@@ -10,6 +10,15 @@
 # 2. External: URLs linking to outside resources (e.g., target = "https://example.com").
 # 3. Special: Built-in special pages, identified by square brackets (e.g., target = "[home]"). Available special pages: [home], [gallery].
 
+footer_copyright_notice = "&copy; 2024 Your Company Name. All rights reserved."
+footer_contact_info = 'Contact us: <a href="mailto:support@yourcompany.com">support@yourcompany.com</a>'
+
+# Metadata for the site
+[metadata]
+title = "My Portfolio"
+description = "Showcase of my projects."
+keywords = "portfolio, projects"
+
 
 [[top_link]]
 label = "Home"
