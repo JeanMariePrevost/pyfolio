@@ -1,0 +1,52 @@
+# This configuration file defines the site's general settings, navigation bar (navbar) and footer links.
+# 
+# - Navbar links are specified using a [[top_link]] section for each link.
+# - Footer links are specified using a [[footer_link]] section for each link.
+# - Each link requires a label and target field.
+# - The order in which links appear in the file determines their display order on the webpage.
+#
+# Supported link targets:
+# 1. Internal: Markdown files located in "custom_pages" directory to create your own pages (e.g. target = "about.md").
+# 2. External: URLs linking to outside resources (e.g., target = "https://example.com").
+# 3. Special: Built-in special pages, identified by square brackets (e.g., target = "[home]"). Available special pages: [home], [gallery].
+
+
+[[top_link]]
+label = "Home"
+target = "[home]"
+
+[[top_link]]
+label = "Gallery"
+target = "[gallery]"
+
+[[top_link]]
+label = "My Services"
+target = "services.md"
+
+[[top_link]]
+label = "About"
+target = "about.md"
+
+[[top_link]]
+label = "Contact"
+target = "contact.md"
+
+[[top_link]]
+label = "Store"
+target = "https://pyfolio.free.beeceptor.com/?message=This%20would%20be%20an%20external%20store%20page."
+
+[[footer_link]]
+label = "Privacy Policy"
+target = "privacy.md"
+
+[[footer_link]]
+label = "Terms of Service"
+target = "tos.md"
+
+[[footer_link]]
+label = "About"
+target = "about.md"
+
+[[footer_link]]
+label = "Contact"
+target = "contact.md"

@@ -18,18 +18,11 @@
     {% block navbar %}
       <nav class="navbar">
         <ul>
-          <li>
-            <a href="{{ url_for('home') }}">Home</a>
-          </li>
-          <li>
-            <a href="{{ url_for('gallery') }}">Gallery</a>
-          </li>
-          <li>
-            <a href="{{ url_for('about') }}">About</a>
-          </li>
-          <li>
-            <a href="{{ url_for('contact') }}">Contact</a>
-          </li>
+          {% for link in config.top_link %}
+            <li>
+              <a href="{{ link.target }}">{{ link.label }}</a>
+            </li>
+          {% endfor %}
         </ul>
       </nav>
     {% endblock navbar %}
@@ -47,11 +40,10 @@
           <div class="legal-info">
             <p>© 2024 Your Company Name. All rights reserved.</p>
             <p>
-              <a href="{{ url_for('privacy_policy') }}">Privacy Policy</a>
-              |
-              <a href="{{ url_for('terms_of_service') }}">Terms of Service</a>
-              |
-              <a href="{{ url_for('cookie_policy') }}">Cookie Policy</a>
+              {% for link in config.footer_link %}
+                <a href="{{ link.target }}">{{ link.label }}</a>
+                {% if not loop.last %}|{% endif %}
+              {% endfor %}
             </p>
           </div>
           <div class="contact-info">

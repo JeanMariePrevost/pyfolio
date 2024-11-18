@@ -1,14 +1,13 @@
-import os
 from flask import Flask, abort, render_template, send_from_directory
 import webbrowser
 from threading import Timer
 import markdown
 
-import path_util
+import config_manager
 from portfolio import Portfolio
 from portfolio_element import PortfolioElement
 
-app = Flask(__name__)
+app = Flask(__name__)  # Create the Flask app instance
 
 
 @app.route("/")
@@ -107,8 +106,22 @@ def open_browser():
     webbrowser.open_new("http://127.0.0.1:5000/")
 
 
+# DEBUG : This is a temporary test to see if the location is the issue
+# @__app.context_processor
+# def inject_config():
+#     """
+#     Injects the configuration into the Jinja2 templates.
+#     """
+#     return dict(config=config_manager._config_dict)
+
+
 if __name__ == "__main__":
     print("Application starting.")
+    print("Loading configs.")
+    config_manager.load_configs(app)
+    # DEBUG
+    print(f"Config loaded: {config_manager._config_dict}")
+
     print("Building portfolio structure.")
     portfolio = Portfolio()
 
