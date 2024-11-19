@@ -1,5 +1,6 @@
 {# If 1+ carousel_elements, carousel is displayed #}
 {% if carousel_elements | length > 0 %}
+    <script src="{{ url_for('static', filename='js/carousel.js') }}"></script>
     <div class="carousel">
         <div class="carousel-track">
             {% for portfolio_element in carousel_elements %}

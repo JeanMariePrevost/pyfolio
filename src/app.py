@@ -1,5 +1,5 @@
 import random
-from flask import Flask, abort, render_template, send_from_directory
+from flask import Flask, abort, render_template, render_template_string, send_from_directory
 import webbrowser
 from threading import Timer
 import markdown
@@ -16,9 +16,25 @@ app = Flask(__name__)  # Create the Flask app instance
 def serve_home():
     image_elements = [element for element in portfolio.get_elements() if element.get_asset_type() == "image"]
     three_random_images_elements = random.sample(image_elements, k=min(3, len(image_elements)))
-    return render_template(
-        "home.jinja", text_block="This is a block of plain text passed from app.py.", carousel_elements=three_random_images_elements
-    )
+
+    # If there is a home.md file in the custom_pages folder, render it as the home page
+    if path_util.file_exists_relative("custom_pages/home.md"):
+        markdown_file = path_util.resolve_path(f"custom_pages/home.md")
+        try:
+            with open(markdown_file, "r", encoding="utf-8") as file:
+                markdown_text = file.read()
+                rendered_markdown = markdown.markdown(markdown_text)
+
+                # process the markdown text to inject carousel elements
+                rendered_markdown = rendered_markdown.replace(
+                    "{{pyfolio-carousel}}", render_template("carousel.jinja", carousel_elements=three_random_images_elements)
+                )
+                return render_template("text_page.jinja", markdown_content=rendered_markdown)
+        except FileNotFoundError:
+            abort(404)
+    else:
+        # If there is no home.md file, render the default home page
+        return render_template("home.jinja", carousel_elements=three_random_images_elements)
 
 
 @app.route("/gallery")

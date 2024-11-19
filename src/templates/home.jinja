@@ -1,8 +1,6 @@
 {% extends "base.jinja" %}
 {% block content %}
-    <script src="{{ url_for('static', filename='js/carousel.js') }}"></script>
     <h1>{{ config.metadata.title }}</h1>
-    <p>{{ text_block }}</p>
 
     {% include "carousel.jinja" %}
 {% endblock content %}

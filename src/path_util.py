@@ -30,3 +30,13 @@ def derive_relative_path(absolute_path: str, base_directory: str) -> str:
     if not absolute_path.startswith(base_directory):
         raise ValueError(f"The path '{absolute_path}' is not within the base directory '{base_directory}'.")
     return os.path.relpath(absolute_path, base_directory)
+
+
+def file_exists_relative(file_path: str) -> bool:
+    """
+    Check if a file exists at the given path.
+
+    :param file_path: Path to the file.
+    :return: True if the file exists, False otherwise.
+    """
+    return os.path.isfile(resolve_path(file_path))
