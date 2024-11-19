@@ -39,7 +39,7 @@ def get_random_portfolio_image_elements(amount: int):
 
 def process_custom_pyfolio_tags(markdown_text: str):
     processed_markdown = markdown_text.replace(
-        "{{pyfolio-carousel}}", render_template("carousel.jinja", carousel_elements=get_random_portfolio_image_elements(3))
+        "{{pyfolio-carousel}}", render_template("carousel_component.jinja", carousel_elements=get_random_portfolio_image_elements(3))
     )
     # TODO: Also add gallery component
     return processed_markdown

@@ -3,27 +3,6 @@
 {% block content %}
     <h1>Gallery</h1>
 
-    <div class="gallery-grid">
-        {% for portfolio_element in elements %}
-            <a href="{{ portfolio_element.get_url_for_page() }}"
-               class="gallery-item-link">
-                <div class="gallery-item">
-                    <div class="gallery-item-image">
-                        {% if portfolio_element.get_asset_type() == "image" %}
-                            <img src="{{ portfolio_element.get_url_for_asset() }}"
-                                 alt="{{ portfolio_element.get_file_name_without_extension() }}">
-                        {% else %}
-                            <div class="unsupported-thumbnail">
-                                <p>Thumnbnail not available</p>
-                            </div>
-                        {% endif %}
-                    </div>
-                    <div class="gallery-item-title">
-                        <p>{{ portfolio_element.get_path_relative_to_portfolio() }}</p>
-                    </div>
-                </div>
-            </a>
-        {% endfor %}
-    </div>
+    {% include "gallery_component.jinja" %}
 
 {% endblock content %}
