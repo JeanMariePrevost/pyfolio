@@ -1,8 +1,15 @@
 {% extends "base.jinja" %}
 
 {% block head_title %}
-    {{ page_title }}
+    {{ frontmatter_dict.title }}
 {% endblock head_title %}
+
+{% block head_meta_data %}
+    <!-- Additional specific metadata, e.g author, date, etc. -->
+    {% for key, value in frontmatter_dict.items() %}
+        {% if key not in ['title'] %}<meta name="{{ key }}" content="{{ value }}">{% endif %}
+    {% endfor %}
+{% endblock head_meta_data %}
 
 {% block content %}
     {{ rendered_markdown_content | safe }}

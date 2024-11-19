@@ -8,8 +8,11 @@
         {{ config.metadata.title }}
       {% endblock head_title %}
     </title>
-    <meta name="description" content="{{ config.metadata.description }}" />
-    <meta name="keywords" content="{{ config.metadata.keywords }}" />
+
+    {% block head_meta_data %}
+      <meta name="description" content="{{ config.metadata.description }}" />
+      <meta name="keywords" content="{{ config.metadata.keywords }}" />
+    {% endblock head_meta_data %}
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/styles.css') | safe }}" />
     {% block injected_css %}

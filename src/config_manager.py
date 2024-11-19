@@ -39,6 +39,13 @@ def load_configs(app: Flask):
         return dict(config=_config_dict)
 
 
+def get_config():
+    """
+    Returns the configuration dictionary.
+    """
+    return _config_dict
+
+
 def parse_style_configs():
     """
     Parses the style configurations from the configuration dictionary to make it adequate for the Jinja2 templates and/or add extra behaviors

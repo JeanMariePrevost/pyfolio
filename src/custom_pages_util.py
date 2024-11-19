@@ -7,6 +7,7 @@ from flask import render_template
 import markdown
 
 import app_logger
+import config_manager
 from portfolio import Portfolio
 
 CAROUSEL_TAG = "{{pyfolio-carousel}}"
@@ -23,7 +24,7 @@ def render_custom_page_from_markdown_file(path_to_markdown_file: str):
         with open(path_to_markdown_file, "r", encoding="utf-8") as file:
             markdown_text = file.read()
 
-        return render_custom_page_from_markdown_text(markdown_text)
+        return render_custom_page_from_markdown_text(markdown_text, path_to_markdown_file)
     except FileNotFoundError:
         app_logger.error(f"Markdown file not found: {path_to_markdown_file}")
         return None
@@ -32,18 +33,32 @@ def render_custom_page_from_markdown_file(path_to_markdown_file: str):
         return None
 
 
-def render_custom_page_from_markdown_text(markdown_text: str):
+def render_custom_page_from_markdown_text(markdown_text: str, source_file_path: str | None = None):
     """
     Processes a markdown text and returns the rendered HTML content to be injected into custom pages.
     Also replaces custom tags found in the markdown with the appropriate content, e.g. {{pyfolio-carousel}} or {{pyfolio-gallery}}.
     Returns None if an error occurs during processing.
     """
     try:
-        rendered_markdown = markdown.markdown(markdown_text)
+        frontmatter_str, content_str = split_frontmatter_from_content(markdown_text)
+        frontmatter_dict = process_frontmatter(frontmatter_str)
+
+        # Provide a default title if none is specified
+        if "title" not in frontmatter_dict:
+            nameFromPath = source_file_path.split("/")[-1].split(".")[0]
+            nameFromPath = nameFromPath.replace("_", " ").title()
+            try:
+                site_title = config_manager.get_config().get("metadata").get("title")
+                nameFromPath = nameFromPath + " - " + site_title
+            except:
+                app_logger.warning("No site title found in config.toml")
+            frontmatter_dict["title"] = nameFromPath
+
+        rendered_markdown = markdown.markdown(content_str)
 
         # process the markdown text to inject carousel elements
         rendered_markdown = process_custom_pyfolio_tags(rendered_markdown)
-        return render_template("text_page.jinja", rendered_markdown_content=rendered_markdown)
+        return render_template("text_page.jinja", rendered_markdown_content=rendered_markdown, frontmatter_dict=frontmatter_dict)
     except Exception as e:
         app_logger.error(f"Error processing markdown text: {e}")
         return None
@@ -63,3 +78,41 @@ def process_custom_pyfolio_tags(markdown_text: str):
         GALLERY_TAG, render_template("gallery_component.jinja", portfolio_elements=Portfolio.get_instance().get_elements())
     )
     return processed_markdown
+
+
+def split_frontmatter_from_content(markdown_text: str) -> tuple:
+    """
+    Splits the frontmatter from the content of a markdown document and returns a (frontmatter, content) strings tuple.
+    """
+    if not contains_a_frontmatter_block(markdown_text):
+        return "", markdown_text
+
+    lines = markdown_text.split("\n")
+    frontmatter = "\n".join(lines[: lines.index("---", 1) + 1])
+    content = "\n".join(lines[lines.index("---", 1) + 1 :])
+
+    return frontmatter, content
+
+
+def process_frontmatter(frontmatter_str: str):
+    """
+    Processes the frontmatter of a markdown document and returns the frontmatter as a dictionary.
+    """
+    if not contains_a_frontmatter_block(frontmatter_str):
+        return {}
+
+    frontmatterDictionary = {}
+    lines = frontmatter_str.split("\n")
+    for line in lines[1 : lines.index("---", 1)]:
+        key, value = line.split(": ", 1)
+        frontmatterDictionary[key] = value
+
+    return frontmatterDictionary
+
+
+def contains_a_frontmatter_block(markdown_text: str):
+    """
+    Returns True if the markdown text contains a frontmatter block, False otherwise.
+    """
+    lines = markdown_text.split("\n")
+    return lines[0] == "---" and "---" in lines[1:]
