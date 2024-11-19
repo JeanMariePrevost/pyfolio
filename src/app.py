@@ -15,42 +15,51 @@ app = Flask(__name__)  # Create the Flask app instance
 
 @app.route("/")
 def serve_home():
-    # If there is a home.md file in the custom_pages folder, render it as the home page
+    # Special case for the home page, has a default if no custom page is found
     if path_util.file_exists_relative("custom_pages/home.md"):
         app_logger.debug("app.server_home: Found home.md file. Serving custom home page.")
         return serve_custom_page("home")
     else:
-        app_logger.debug("app.server_home: No home.md file found. Serving default home page.")
-        return render_template("home.jinja", carousel_elements=custom_pages_util.get_random_portfolio_image_elements(3))
+        app_logger.warning("app.server_home: No home.md file found. Serving default.")
+        return custom_pages_util.render_custom_page_from_markdown_text(
+            "# Welcome to Pyfolio!\n\nThis is the default home page. You can customize it by creating a `home.md` file in the `custom_pages` folder.\n\n{{pyfolio-carousel}}"
+        )
 
 
 @app.route("/gallery")
 def serve_gallery():
-    list_of_elements = Portfolio.get_instance().get_elements()
-    return render_template("gallery.jinja", elements=list_of_elements)
+    # Special case for the gallery page, has a default if no custom page is found
+    if path_util.file_exists_relative("custom_pages/gallery.md"):
+        app_logger.debug("app.serve_gallery: Found gallery.md file. Serving custom gallery page.")
+        return serve_custom_page("gallery")
+    else:
+        app_logger.info("app.serve_gallery: No gallery.md file found. Serving default.")
+        return custom_pages_util.render_custom_page_from_markdown_text("# Gallery\n\n{{pyfolio-gallery}}")
 
 
 @app.route("/<path:page>")
 def serve_custom_page(page):
     markdown_file = path_util.resolve_path(f"custom_pages/{page}.md")
     app_logger.debug(f"Requesting custom page: {page}. Resolved markdown file path: {markdown_file}")
-    return custom_pages_util.render_custom_page_from_markdown_file(markdown_file)
-    # return render_template("text_page.jinja", rendered_markdown_content=rendered_markdown_content)
-    # abort(404)
+    page = custom_pages_util.render_custom_page_from_markdown_file(markdown_file)
+    if page is None:
+        abort(404)
+    return page
 
 
 @app.route("/portfolio/<path:path>")
 def serve_portfolio(path):
-    # determine if direct file (has extension) or portfolio element
     if "." in path:
+        # "." Indicates a file request
         return serve_portfolio_file(path)
     else:
+        # Is a page request
         return serve_portfolio_page(path)
 
 
 def serve_portfolio_file(path):
     """Serve the portfolio assets files directly when there is an extension, e.g. allow direct access to images."""
-    app_logger.debug(f"Requesting portfolio file directly: {path}")
+    # app_logger.debug(f"Requesting portfolio file directly: {path}")
     return send_from_directory("portfolio", path)
 
 
