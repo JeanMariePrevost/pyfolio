@@ -6,6 +6,7 @@ import random
 from flask import render_template
 import markdown
 
+import app_logger
 from portfolio import Portfolio
 
 
@@ -24,10 +25,10 @@ def render_custom_page_from_markdown_file(path_to_markdown_file: str):
             rendered_markdown = process_custom_pyfolio_tags(rendered_markdown)
         return render_template("text_page.jinja", rendered_markdown_content=rendered_markdown)
     except FileNotFoundError:
-        print(f"Markdown file not found: {path_to_markdown_file}")
+        app_logger.error(f"Markdown file not found: {path_to_markdown_file}")
         return None
     except Exception as e:
-        print(f"Error processing markdown file: {e}")
+        app_logger.error(f"Error processing markdown file [{path_to_markdown_file}]: {e}")
         return None
 
 
