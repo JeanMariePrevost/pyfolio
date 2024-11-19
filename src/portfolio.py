@@ -11,6 +11,22 @@ class Portfolio:
     Paths are relative to the portfolio folder.
     """
 
+    __instance = None
+
+    @staticmethod
+    def get_instance():
+        if Portfolio.__instance is None:
+            Portfolio.__instance = Portfolio.__create_instance()  # Bypass the __new__ method to not raise an exception
+            Portfolio.__instance.__init__()  # Initialize the instance manually as __new__ was bypassed
+        return Portfolio.__instance
+
+    @staticmethod
+    def __create_instance():
+        return object.__new__(Portfolio)
+
+    def __new__(cls):
+        raise Exception("Portfolio is a singleton. Use Portfolio.get_instance() to access the instance.")
+
     IGNORED_EXTENSIONS = [".md", ".txt"]
 
     def __init__(self):
