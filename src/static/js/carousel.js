@@ -95,27 +95,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Attach events for hover pause
   carousel.addEventListener("mouseenter", stopAutoPlay);
-  // carousel.addEventListener("mouseleave", startAutoPlay); // DEBUG disabled for now
+  carousel.addEventListener("mouseleave", startAutoPlay);
 
-  // Button and dot functionality
-  prevButton.addEventListener("click", () => {
-    currentIndex -= 1;
-    if (currentIndex < 0) {
-      currentIndex = slidesWithClones.length - numberOfClonesOnEachSide - 1;
-    }
-
-    updateCarousel();
-  });
-
-  nextButton.addEventListener("click", () => {
-    currentIndex = (currentIndex + 1) % slidesWithClones.length;
-    updateCarousel();
-  });
-
+  // Button dot functionality
   dots.forEach((dot) => {
     dot.addEventListener("click", (e) => {
       const index = Number(e.target.dataset.index);
-      currentIndex = index;
+      currentIndex = index + numberOfClonesOnEachSide - 1;
       updateCarousel();
     });
   });

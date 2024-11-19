@@ -275,21 +275,6 @@ h6 {
   display: block; /* Prevent inline spacing issues */
 }
 
-.carousel button {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 3;
-}
-
-.carousel button.prev {
-  left: 200px;
-}
-
-.carousel button.next {
-  right: 200px;
-}
-
 .carousel-indicators {
   display: flex; /* Arrange buttons in a row */
   justify-content: center; /* Center the dots horizontally */
