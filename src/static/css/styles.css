@@ -223,11 +223,39 @@ h6 {
   margin: 0 auto; /* Center the carousel */
   position: relative;
   overflow: hidden;
+  padding-left: 200px;
+  padding-right: 200px;
+  margin-left: -200px;
+  margin-right: -200px;
   display: flex; /* Flexbox ensures proper alignment of slides */
   width: 100%; /* Allow responsiveness */
   max-width: 800px; /* Limit width to a reasonable size */
   height: 400px; /* Set a consistent height for the carousel */
   display: flex; /* Align slides horizontally */
+}
+
+.carousel::before,
+.carousel::after {
+  content: "";
+  position: absolute;
+  display: block;
+  top: 0;
+  height: 100%;
+  width: 200px;
+  pointer-events: none; /* Prevent interaction */
+  z-index: 2;
+}
+
+.carousel::before {
+  left: 0;
+  background: linear-gradient(to right, color-mix(in srgb, var(--background-color), transparent 0%), color-mix(in srgb, var(--background-color), transparent 10%));
+  /* background: linear-gradient(to right, color-mix(in srgb, red, transparent 40%), color-mix(in srgb, red, transparent 80%)); */
+}
+
+.carousel::after {
+  right: 0;
+  background: linear-gradient(to right, color-mix(in srgb, var(--background-color), transparent 10%), color-mix(in srgb, var(--background-color), transparent 0%));
+  /* background: linear-gradient(to right, color-mix(in srgb, red, transparent 80%), color-mix(in srgb, red, transparent 40%)); */
 }
 
 .carousel-slide {
@@ -251,15 +279,15 @@ h6 {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  z-index: 2;
+  z-index: 3;
 }
 
 .carousel button.prev {
-  left: 10px;
+  left: 200px;
 }
 
 .carousel button.next {
-  right: 10px;
+  right: 200px;
 }
 
 .carousel-indicators {

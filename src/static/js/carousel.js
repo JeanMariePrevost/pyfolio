@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const track = document.querySelector(".carousel-track");
-  const slides = Array.from(document.querySelectorAll(".carousel-slide"));
+  const realSlides = Array.from(document.querySelectorAll(".carousel-slide"));
   const prevButton = document.querySelector(".prev");
   const nextButton = document.querySelector(".next");
   const indicatorsContainer = document.querySelector(".carousel-indicators");
@@ -10,20 +10,23 @@ document.addEventListener("DOMContentLoaded", () => {
   let autoPlayInterval;
 
   const autoPlayDelay = 3000; // Time between slides in milliseconds
+  const defaultTransition = track.style.transition; // Store the CSS transition effect
 
-  // Initialize clones (from earlier improvement)
-  const firstClone = slides[0].cloneNode(true);
-  const lastClone = slides[slides.length - 1].cloneNode(true);
+  // Clone slides to create infinite loop effect
+  const numberOfClonesOnEachSide = 2;
+  for (let i = 0; i < numberOfClonesOnEachSide; i++) {
+    const cloneFromStart = realSlides[i].cloneNode(true);
+    const cloneFromEnd = realSlides[realSlides.length - 1 - i].cloneNode(true);
 
-  track.appendChild(firstClone);
-  track.insertBefore(lastClone, slides[0]);
-  const defaultTransition = track.style.transition; // Store default transition
+    track.appendChild(cloneFromStart);
+    track.insertBefore(cloneFromEnd, track.firstChild);
+  }
 
-  const updatedSlides = Array.from(track.children);
-  const slideWidth = slides[0].getBoundingClientRect().width;
+  const slidesWithClones = Array.from(track.children);
+  const slideWidth = realSlides[0].getBoundingClientRect().width;
 
   // Generate indicators (from earlier improvement)
-  slides.forEach((_, i) => {
+  realSlides.forEach((_, i) => {
     const dot = document.createElement("button");
     dot.dataset.index = i + 1;
     indicatorsContainer.appendChild(dot);
@@ -32,41 +35,56 @@ document.addEventListener("DOMContentLoaded", () => {
   const dots = Array.from(indicatorsContainer.children);
   dots[0].classList.add("active");
 
-  function updateCarousel() {
-    track.style.transition = defaultTransition;
+  function updateCarousel(instant = false) {
+    console.log("currentIndex", currentIndex);
+    if (instant) {
+      track.style.transition = "none";
+    } else {
+      track.style.transition = defaultTransition;
+    }
     track.style.transform = `translateX(${-slideWidth * currentIndex}px)`;
     updateDots();
   }
 
   function updateDots() {
     dots.forEach((dot) => dot.classList.remove("active"));
-    if (currentIndex === 0) {
-      dots[dots.length - 1].classList.add("active");
-    } else if (currentIndex === updatedSlides.length - 1) {
-      dots[0].classList.add("active");
-    } else {
-      dots[currentIndex - 1].classList.add("active");
+    const equivalentRealSlideIndex = getEquivalentRealSlideIndex(currentIndex);
+    for (let i = 0; i < dots.length; i++) {
+      if (i === equivalentRealSlideIndex) {
+        dots[i].classList.add("active");
+      }
     }
   }
 
-  function handleTransitionEnd() {
-    if (updatedSlides[currentIndex] === firstClone) {
-      track.style.transition = "none";
-      currentIndex = 1;
-      track.style.transform = `translateX(${-slideWidth * currentIndex}px)`;
-    }
+  // Function to return a "looped" index value back into the "real" slides range
+  function getEquivalentRealSlideIndex(index) {
+    return (index - numberOfClonesOnEachSide + realSlides.length) % realSlides.length;
+  }
 
-    if (updatedSlides[currentIndex] === lastClone) {
-      track.style.transition = "none";
-      currentIndex = updatedSlides.length - 2;
-      track.style.transform = `translateX(${-slideWidth * currentIndex}px)`;
+  // Function to return a "looped" index value back into the "real" slides range
+  function getIndexLoopedBackIntoRealSlidesRange(index) {
+    // return ((index - numberOfClonesOnEachSide) % realSlides.length) + numberOfClonesOnEachSide;
+    return getEquivalentRealSlideIndex(index) + numberOfClonesOnEachSide;
+  }
+
+  function handleTransitionEnd() {
+    // Handle the infinite loop effect, loop back to the equivalent "real" slide
+    lastRealSlideIndex = realSlides.length + numberOfClonesOnEachSide - 1;
+    if (currentIndex > lastRealSlideIndex) {
+      console.log("currentIndex >= slides.length - numberOfClonesOnEachSide");
+      // currentIndex = ((currentIndex - numberOfClonesOnEachSide) % realSlides.length) + numberOfClonesOnEachSide;
+      currentIndex = getIndexLoopedBackIntoRealSlidesRange(currentIndex);
+      updateCarousel(true);
+    } else if (currentIndex < numberOfClonesOnEachSide) {
+      currentIndex = getIndexLoopedBackIntoRealSlidesRange(currentIndex);
+      updateCarousel(true);
     }
   }
 
   // Auto-play functionality
   function startAutoPlay() {
     autoPlayInterval = setInterval(() => {
-      currentIndex = (currentIndex + 1) % updatedSlides.length;
+      currentIndex = (currentIndex + 1) % slidesWithClones.length;
       updateCarousel();
     }, autoPlayDelay);
   }
@@ -77,16 +95,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Attach events for hover pause
   carousel.addEventListener("mouseenter", stopAutoPlay);
-  carousel.addEventListener("mouseleave", startAutoPlay);
+  // carousel.addEventListener("mouseleave", startAutoPlay); // DEBUG disabled for now
 
   // Button and dot functionality
   prevButton.addEventListener("click", () => {
-    currentIndex = (currentIndex - 1 + updatedSlides.length) % updatedSlides.length;
+    currentIndex -= 1;
+    if (currentIndex < 0) {
+      currentIndex = slidesWithClones.length - numberOfClonesOnEachSide - 1;
+    }
+
     updateCarousel();
   });
 
   nextButton.addEventListener("click", () => {
-    currentIndex = (currentIndex + 1) % updatedSlides.length;
+    currentIndex = (currentIndex + 1) % slidesWithClones.length;
     updateCarousel();
   });
 
@@ -102,6 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
   startAutoPlay();
 
   // Initialize position
-  track.style.transform = `translateX(${-slideWidth * currentIndex}px)`;
+  currentIndex = 3;
+  updateCarousel(true);
   track.addEventListener("transitionend", handleTransitionEnd);
 });
