@@ -1,8 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const track = document.querySelector(".carousel-track");
   const realSlides = Array.from(document.querySelectorAll(".carousel-slide"));
-  const prevButton = document.querySelector(".prev");
-  const nextButton = document.querySelector(".next");
   const indicatorsContainer = document.querySelector(".carousel-indicators");
   const carousel = document.querySelector(".carousel");
 
@@ -25,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const slidesWithClones = Array.from(track.children);
   const slideWidth = realSlides[0].getBoundingClientRect().width;
 
-  // Generate indicators (from earlier improvement)
+  // Generate indicators dots
   realSlides.forEach((_, i) => {
     const dot = document.createElement("button");
     dot.dataset.index = i + 1;

@@ -43,6 +43,7 @@ def serve_custom_page(page):
     app_logger.debug(f"Requesting custom page: {page}. Resolved markdown file path: {markdown_file}")
     rendered_page = custom_pages_util.render_custom_page_from_markdown_file(markdown_file)
     if rendered_page is None:
+        app_logger.warning(f"Custom page not found: {page}.")
         abort(404)
     return rendered_page
 

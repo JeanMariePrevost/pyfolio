@@ -69,6 +69,12 @@ h6 {
   background-color: var(--background-color-main);
   max-width: 1000px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+  text-align: center;
+}
+
+.main-content li {
+  text-align: left;
 }
 
 /* Navbar Styling */

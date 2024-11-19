@@ -5,6 +5,7 @@ This module contains helper functions for rendering custom pages and processing 
 import random
 from flask import render_template
 import markdown
+import markdown.postprocessors
 
 import app_logger
 import config_manager
@@ -54,7 +55,8 @@ def render_custom_page_from_markdown_text(markdown_text: str, source_file_path: 
                 app_logger.warning("No site title found in config.toml")
             frontmatter_dict["title"] = nameFromPath
 
-        rendered_markdown = markdown.markdown(content_str)
+        preprocessed_markdown = apply_preprocessing_to_markdown(content_str)
+        rendered_markdown = markdown.markdown(preprocessed_markdown, extensions=["nl2br"])
 
         # process the markdown text to inject carousel elements
         rendered_markdown = process_custom_pyfolio_tags(rendered_markdown)
@@ -62,6 +64,17 @@ def render_custom_page_from_markdown_text(markdown_text: str, source_file_path: 
     except Exception as e:
         app_logger.error(f"Error processing markdown text: {e}")
         return None
+
+
+def apply_preprocessing_to_markdown(markdown_text: str) -> str:
+    """
+    Applies preprocessing to a markdown text before rendering it.
+    """
+
+    # Respects multiple line breaks in the markdown text by replacing them with <br> tags
+    processed_text = markdown_text.replace("\n\n", "<br>\n")
+
+    return processed_text
 
 
 def get_random_portfolio_image_elements(amount: int):
