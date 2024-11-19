@@ -7,10 +7,15 @@
                     {% if portfolio_element.get_asset_type() == "image" %}
                         <img src="{{ portfolio_element.get_url_for_asset() }}"
                              alt="{{ portfolio_element.get_file_name_without_extension() }}">
+                    {% elif portfolio_element.get_asset_type() == "audio" %}
+                        <img src="{{ url_for('static', filename='assets/missing_thumbnail_audio.webp') }}"
+                             alt="Audio file">
+                    {% elif portfolio_element.get_asset_type() == "video" %}
+                        <img src="{{ url_for('static', filename='assets/missing_thumbnail_video.webp') }}"
+                             alt="Video file">
                     {% else %}
-                        <div class="unsupported-thumbnail">
-                            <p>Thumnbnail not available</p>
-                        </div>
+                        <img src="{{ url_for('static', filename='assets/missing_thumbnail_other.webp') }}"
+                             alt="Video file">
                     {% endif %}
                 </div>
                 <div class="gallery-item-title">
