@@ -41,10 +41,10 @@ def serve_gallery():
 def serve_custom_page(page):
     markdown_file = path_util.resolve_path(f"custom_pages/{page}.md")
     app_logger.debug(f"Requesting custom page: {page}. Resolved markdown file path: {markdown_file}")
-    page = custom_pages_util.render_custom_page_from_markdown_file(markdown_file)
-    if page is None:
+    rendered_page = custom_pages_util.render_custom_page_from_markdown_file(markdown_file)
+    if rendered_page is None:
         abort(404)
-    return page
+    return rendered_page
 
 
 @app.route("/portfolio/<path:path>")
@@ -96,15 +96,18 @@ def open_browser():
     webbrowser.open_new("http://127.0.0.1:5000/")
 
 
-if __name__ == "__main__":
-    app_logger.info("Application starting.")
+def setup_environment():
     app_logger.debug("Loading configs.")
     config_manager.load_configs(app)
-    # DEBUG
-    app_logger.debug(f"Config loaded: {config_manager._config_dict}")
 
     app_logger.debug("Building portfolio structure.")
     Portfolio.get_instance()  # Not needed but it pre-generates the portfolio
+
+
+if __name__ == "__main__":
+    app_logger.info("Application starting.")
+
+    setup_environment()
 
     app_logger.warning("This is a local server. Schedule browser to open in 1 second.")
     Timer(1, open_browser).start()  # Non-blocking delay before opening the page to let the server start, since the server itself is blocking

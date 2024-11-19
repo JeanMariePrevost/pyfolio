@@ -107,6 +107,15 @@ def process_frontmatter(frontmatter_str: str):
         key, value = line.split(": ", 1)
         frontmatterDictionary[key] = value
 
+    # Convert incorrectly structured arrays for html
+    for key in frontmatterDictionary:
+        if frontmatterDictionary[key].startswith("[") and frontmatterDictionary[key].endswith("]"):
+            # Remove brackets
+            frontmatterDictionary[key] = frontmatterDictionary[key].replace("[", "").replace("]", "").replace(", ", ",")
+            # remove internal quotes
+            frontmatterDictionary[key] = frontmatterDictionary[key].replace('"', "")
+            print(frontmatterDictionary[key])
+
     return frontmatterDictionary
 
 

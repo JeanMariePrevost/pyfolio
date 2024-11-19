@@ -167,3 +167,4 @@ cython_debug/
 
 portfolio/
 custom_pages/
+*bake_website_output/
