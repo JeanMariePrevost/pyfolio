@@ -1,5 +1,6 @@
 import os
 
+import app_logger
 import path_util
 from portfolio_element import PortfolioElement
 
@@ -32,9 +33,7 @@ class Portfolio:
     def __init__(self):
         self._elements = self._discover_portfolio_elements()
 
-        # DEBUG: Print the elements found in the portfolio
-        print("Portfolio scan complete. Found the following elements:")
-        print(self._elements)
+        app_logger.info(f"Portfolio: Found {len(self._elements)} supported assets in the portfolio folder.")
 
     def _discover_portfolio_elements(self):
         """
@@ -48,21 +47,21 @@ class Portfolio:
 
                 # Skip ignored extensions early
                 if any(file.endswith(ext) for ext in self.IGNORED_EXTENSIONS):
-                    print(f"Portfolio: Skipping non-asset file: {file}")
+                    app_logger.debug(f"Portfolio initial scan: Skipping non-asset file: {file}")
                     continue
 
                 # Process valid asset files
-                print(f"Portfolio: Including asset: {file}")
+                app_logger.debug(f"Portfolio initial scan: Including asset: {file}")
                 new_element = PortfolioElement(absolute_asset_path=absolute_file_path)
 
                 # Check for identifier collisions
                 collision = next((element for element in elements if element.get_identifier() == new_element.get_identifier()), None)
                 if collision:
-                    print(
+                    app_logger.warning(
                         f"Multiple portfolio elements cannot have the same identifier:\n"
                         f"- {collision.get_absolute_asset_path()}\n"
                         f"- {new_element.get_absolute_asset_path()}\n"
-                        f"{new_element.get_absolute_asset_path()} will be ignored."
+                        f"{new_element.get_absolute_asset_path()} will be not be included."
                     )
                     continue
                 elements.append(new_element)
