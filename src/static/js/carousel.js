@@ -110,7 +110,9 @@ document.addEventListener("DOMContentLoaded", () => {
   startAutoPlay();
 
   // Initialize position
-  currentIndex = 3;
+  currentIndex = numberOfClonesOnEachSide;
   updateCarousel(true);
   track.addEventListener("transitionend", handleTransitionEnd);
+  currentIndex = numberOfClonesOnEachSide;
+  updateCarousel(true);
 });
