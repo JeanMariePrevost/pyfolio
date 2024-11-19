@@ -1,29 +1,30 @@
 # This configuration file defines the site's general settings, navigation bar (navbar) and footer links.
 # 
-# - Navbar links are specified using a [[top_link]] section for each link.
-# - Footer links are specified using a [[footer_link]] section for each link.
-# - Each link requires a label and target field.
-# - The order in which links appear in the file determines their display order on the webpage.
-#
-# Supported link targets:
-# 1. Internal: Markdown files located in "custom_pages" directory to create your own pages (e.g. target = "about.md").
-# 2. External: URLs linking to outside resources (e.g., target = "https://example.com").
-# 3. Special: Built-in special pages, identified by square brackets (e.g., target = "[home]"). Available special pages: [home], [gallery].
+# It covers 3 main sections:
+# 1. General site data (e.g. title, description, keywords)
+# 2. Theme (e.g. colors, fonts)
+# 3. Navigation Links
 
-footer_copyright_notice = "&copy; 2024 Your Company Name. All rights reserved."
-footer_contact_info = 'Contact us: <a href="mailto:support@yourcompany.com">support@yourcompany.com</a>'
 
-# Metadata for the site
-[metadata]
+#############################################################
+# 1. General Site Data
+#############################################################
+[general]
 title = "My Portfolio"
 description = "Showcase of my projects."
 keywords = "portfolio, projects"
 
+footer_copyright_notice = "&copy; 2024 Your Company Name. All rights reserved."
+footer_contact_info = 'Contact us: <a href="mailto:support@yourcompany.com">support@yourcompany.com</a>'
 
-# General theme/styling configs
+
+#############################################################
+# 2. Theme Options
+#############################################################
 # These override the default CSS styles
 # Delete, comment out or set to "default" to use the default styles or to work with the styles.css file directly
 # Supports hex colors, e.g. "#ff0000", color names, e.g. "red", and "default" to not override styles.css
+#############################################################
 [style]
 accent_color = "#252a2b"                # Main color for buttons, links, and highlights
 accent_hover_color = "#1d2021"          # Darker shade for hover or active states
@@ -48,6 +49,19 @@ gallery_card_width = "200px"  # Width of gallery cards
 gallery_grid_gap = "15px"     # Space between gallery cards
 
 
+#############################################################
+# 3. Navigation Links
+#############################################################
+# - Navbar links are specified using a [[top_link]] section for each link.
+# - Footer links are specified using a [[footer_link]] section for each link.
+# - Each link requires a label and target field.
+# - The order in which links appear in the file determines their display order on the webpage.
+#
+# Supported link types:
+# 1. Custom pages: Markdown files located in "custom_pages" directory to create your own pages (e.g. target = "about.md").
+# 2. External links: URLs linking to outside resources (e.g., target = "https://example.com").
+# 3. Special values: Built-in special pages, identified by square brackets (e.g., target = "[home]"). Available special pages: [home], [gallery].
+#############################################################
 [[top_link]]
 label = "Home"
 target = "[home]"
@@ -55,10 +69,6 @@ target = "[home]"
 [[top_link]]
 label = "Gallery"
 target = "[gallery]"
-
-[[top_link]]
-label = "My Services"
-target = "services.md"
 
 [[top_link]]
 label = "About"

@@ -1,7 +1,8 @@
 :root {
   --accent-color: #252a2b; /* Main color for buttons, links, and highlights */
   --accent-hover-color: #1d2021; /* Darker shade for hover or active states */
-  --background-color: #d9d9d9; /* Page background, soft and neutral */
+  --background-color: #d1d1d1; /* Page background color */
+  --background-color-main: #e2e2e2; /* Content background color */
   --background-color-card: #ffffff; /* Card background, usually white for contrast */
   --background-color-footer: #f6f6f5; /* Footer background, subtly distinct */
   --background-color-grayed-out: #eaeaea; /* Background for disabled or inactive elements */
@@ -40,6 +41,11 @@ body {
   flex-direction: column; /* Stack elements vertically */
 }
 
+body p {
+  margin-block-start: 6px;
+  margin-block-end: 12px;
+}
+
 /* Heading Styling */
 h1,
 h2,
@@ -48,15 +54,21 @@ h4,
 h5,
 h6 {
   font-family: var(--heading-font-family);
+  margin-block-start: 6px;
+  margin-block-end: 12px;
 }
 
 /* Main content block */
 .main-content {
-  padding: 20px 0;
+  padding: 20px 80px;
+  margin: 0 auto;
   flex: 1; /* Fill remaining vertical space */
   display: flex;
   flex-direction: column; /* Ensure content stacks vertically */
   align-items: center; /* Centers child elements horizontally */
+  background-color: var(--background-color-main);
+  max-width: 1000px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 /* Navbar Styling */

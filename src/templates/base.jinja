@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
       {% block head_title %}
-        {{ config.metadata.title }}
+        {{ config.general.title }}
       {% endblock head_title %}
     </title>
     {% block head_base_block %}
     {% endblock head_base_block %}
     {% block head_meta_data %}
-      <meta name="description" content="{{ config.metadata.description }}" />
-      <meta name="keywords" content="{{ config.metadata.keywords }}" />
+      <meta name="description" content="{{ config.general.description }}" />
+      <meta name="keywords" content="{{ config.general.keywords }}" />
     {% endblock head_meta_data %}
     <link rel="apple-touch-icon"
           sizes="180x180"
@@ -85,7 +85,7 @@
       <footer class="footer">
         <div class="footer-content">
           <div class="legal-info">
-            <p>{{ config.footer_copyright_notice }}</p>
+            <p>{{ config.general.footer_copyright_notice }}</p>
           </div>
           <div class="footer-links">
             <p>
@@ -96,7 +96,7 @@
             </p>
           </div>
           <div class="contact-info">
-            <p>{{ config.footer_contact_info }}</p>
+            <p>{{ config.general.footer_contact_info }}</p>
           </div>
         </div>
       </footer>
