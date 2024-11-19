@@ -4,6 +4,10 @@
     {{ portfolio_element.get_file_name_without_extension() }}
 {% endblock head_title %}
 
+{% block head_base_block %}
+    <base href="../">
+{% endblock head_base_block %}
+
 {% block content %}
     <div class="navigation-frame">
 

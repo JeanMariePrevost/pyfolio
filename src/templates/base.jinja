@@ -8,6 +8,8 @@
         {{ config.metadata.title }}
       {% endblock head_title %}
     </title>
+    {% block head_base_block %}
+    {% endblock head_base_block %}
     {% block head_meta_data %}
       <meta name="description" content="{{ config.metadata.description }}" />
       <meta name="keywords" content="{{ config.metadata.keywords }}" />
