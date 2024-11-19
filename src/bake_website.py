@@ -17,6 +17,18 @@ def bake_site():
 
     flask_app = main_app_module.app
 
+    # copy the static folder to the output directory
+    import shutil
+
+    static_folder = main_app_module.path_util.resolve_path("static")
+    output_static_folder = get_absolute_Path_from_internal_path("static")
+    shutil.copytree(static_folder, output_static_folder, dirs_exist_ok=True)
+
+    # copy the portfolio folder to the output directory
+    portfolio_folder = main_app_module.path_util.resolve_path("portfolio")
+    output_portfolio_folder = get_absolute_Path_from_internal_path("portfolio")
+    shutil.copytree(portfolio_folder, output_portfolio_folder, dirs_exist_ok=True)
+
     # Render then save all of the site's pages, which include home, gallery, all custom pages, and all portfolio elements pages
     # Special pages with defaults
     with flask_app.test_client() as client:
@@ -42,12 +54,12 @@ def bake_site():
             process_and_save_file("portfolio/" + element.get_identifier() + ".html", portfolio_element_page)
 
 
-def process_and_save_file(file_path, content):
+def process_and_save_file(file_path, rendered_page):
     """
     Fix links and other particularities, then save to the output folder.
     """
-    content = fix_relative_links(content)
-    save_to_output_folder(file_path, content)
+    rendered_page_with_fixed_links = fix_relative_links(rendered_page)
+    save_to_output_folder(file_path, rendered_page_with_fixed_links)
 
 
 def fix_relative_links(content) -> str:
@@ -57,10 +69,12 @@ def fix_relative_links(content) -> str:
     import re
 
     # Start by finding all relative links matches
-    matches = re.findall('((href|src)="([^\.\#\?"][^:"<>\.]*?)")', content, flags=re.MULTILINE)
+    matches = re.findall('((href|src)="([^\.\#\?"][^:"<>]*?)")', content, flags=re.MULTILINE)
 
     # Remove duplicates to not replace the same string multiple times
     matches = list(set(matches))
+
+    content_with_fixed_links = content
 
     for match in matches:
         # if match has no extension, add .html
@@ -79,12 +93,12 @@ def fix_relative_links(content) -> str:
         if all(sub not in processed_match for sub in ['="#', '="?', '=".']):
             processed_match = processed_match.replace('="', '="./')
         # replace the match in the content
-        content_with_fixed_links = content.replace(match[0], processed_match)
+        content_with_fixed_links = content_with_fixed_links.replace(match[0], processed_match)
 
     return content_with_fixed_links
 
 
-def save_to_output_folder(file_path, content):
+def save_to_output_folder(internal_file_path, content):
     """
     Save the content to the specified file path.
     """
@@ -92,11 +106,15 @@ def save_to_output_folder(file_path, content):
     os.makedirs(OUTPUT_DIR, exist_ok=True)
 
     # Ensure subdirectories exist if present
-    file_path = os.path.join(OUTPUT_DIR, file_path)
-    os.makedirs(os.path.dirname(file_path), exist_ok=True)
+    internal_file_path = os.path.join(OUTPUT_DIR, internal_file_path)
+    os.makedirs(os.path.dirname(internal_file_path), exist_ok=True)
 
-    with open(file_path, "w", encoding="utf-8") as file:
+    with open(internal_file_path, "w", encoding="utf-8") as file:
         file.write(content)
+
+
+def get_absolute_Path_from_internal_path(internal_path):
+    return os.path.join(OUTPUT_DIR, internal_path)
 
 
 if __name__ == "__main__":
