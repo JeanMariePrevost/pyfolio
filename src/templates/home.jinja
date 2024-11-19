@@ -4,22 +4,21 @@
     <h1>{{ config.metadata.title }}</h1>
     <p>{{ text_block }}</p>
 
-    <div class="carousel">
-        <div class="carousel-track">
-            <div class="carousel-slide">
-                <img src="{{ url_for('serve_portfolio', path='Abstract Platformer Sample.png') }}"
-                     alt="Slide 1">
-            </div>
-            <div class="carousel-slide">
-                <img src="{{ url_for('serve_portfolio', path='Axonometric Blocks Sample 1.png') }}"
-                     alt="Slide 2">
-            </div>
-            <div class="carousel-slide">
-                <img src="{{ url_for('serve_portfolio', path='Fish Pack Preview.png') }}"
-                     alt="Slide 3">
-            </div>
-        </div>
-        <div class="carousel-indicators"></div>
-    </div>
+    {# DEBUG #}
+    {{ carousel_elements | length }}
 
+    {# If 1+ portfolio_elements, carousel is displayed #}
+    {% if carousel_elements | length > 0 %}
+        <div class="carousel">
+            <div class="carousel-track">
+                {% for portfolio_element in carousel_elements %}
+                    <div class="carousel-slide">
+                        <img src="{{ url_for('serve_portfolio', path=portfolio_element.get_path_relative_to_portfolio() ) }}"
+                             alt="{{ portfolio_element.get_file_name_without_extension() }}">
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="carousel-indicators"></div>
+        </div>
+    {% endif %}
 {% endblock content %}

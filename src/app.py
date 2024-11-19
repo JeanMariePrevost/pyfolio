@@ -1,3 +1,4 @@
+import random
 from flask import Flask, abort, render_template, send_from_directory
 import webbrowser
 from threading import Timer
@@ -13,7 +14,11 @@ app = Flask(__name__)  # Create the Flask app instance
 
 @app.route("/")
 def serve_home():
-    return render_template("home.jinja", text_block="This is a block of plain text passed from app.py.")
+    image_elements = [element for element in portfolio.get_elements() if element.get_asset_type() == "image"]
+    three_random_images_elements = random.sample(image_elements, k=min(3, len(image_elements)))
+    return render_template(
+        "home.jinja", text_block="This is a block of plain text passed from app.py.", carousel_elements=three_random_images_elements
+    )
 
 
 @app.route("/gallery")
