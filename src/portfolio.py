@@ -1,4 +1,6 @@
+import asyncio
 import os
+from pathlib import Path
 
 import app_logger
 import path_util
@@ -35,36 +37,55 @@ class Portfolio:
 
         app_logger.info(f"Portfolio: Found {len(self._elements)} supported assets in the portfolio folder.")
 
-    def _discover_portfolio_elements(self):
+    def _discover_portfolio_elements(self) -> list[PortfolioElement]:
         """
-        Parses the portfolio folder and returns a list of all the elements found in it.
+        Parses the portfolio folder synchronously but uses async for internal processing.
+        Returns a list of all the elements found in the portfolio folder.
         """
         elements = []
         scan_directory = path_util.resolve_path("portfolio")
-        for directory, _, files in os.walk(scan_directory):
-            for file in os.listdir(directory):
-                absolute_file_path = path_util.resolve_path(os.path.join(directory, file))
 
-                # Skip ignored extensions early
-                if any(file.endswith(ext) for ext in self.IGNORED_EXTENSIONS):
-                    app_logger.debug(f"Portfolio initial scan: Skipping non-asset file: {file}")
-                    continue
+        try:
+            # Non-recursive listing
+            files = os.listdir(scan_directory)
+        except FileNotFoundError:
+            app_logger.error(f"Portfolio folder not found: {scan_directory}")
+            return elements
 
-                # Process valid asset files
-                app_logger.debug(f"Portfolio initial scan: Including asset: {file}")
-                new_element = PortfolioElement(absolute_asset_path=absolute_file_path)
+        # Define async processing for a single file
+        async def process_file(file):
+            absolute_file_path = path_util.resolve_path(os.path.join(scan_directory, file))
 
-                # Check for identifier collisions
-                collision = next((element for element in elements if element.get_identifier() == new_element.get_identifier()), None)
-                if collision:
-                    app_logger.warning(
-                        f"Multiple portfolio elements cannot have the same identifier:\n"
-                        f"- {collision.get_absolute_asset_path()}\n"
-                        f"- {new_element.get_absolute_asset_path()}\n"
-                        f"{new_element.get_absolute_asset_path()} will be not be included."
-                    )
-                    continue
-                elements.append(new_element)
+            # Skip ignored extensions early
+            if any(file.endswith(ext) for ext in self.IGNORED_EXTENSIONS):
+                app_logger.debug(f"Portfolio initial scan: Skipping non-asset file: {file}")
+                return None
+
+            # Process valid asset files
+            app_logger.debug(f"Portfolio initial scan: Including asset: {file}")
+            new_element = PortfolioElement(absolute_asset_path=absolute_file_path)
+
+            # Check for identifier collisions
+            collision = next((element for element in elements if element.get_identifier() == new_element.get_identifier()), None)
+            if collision:
+                app_logger.warning(
+                    f"Multiple portfolio elements cannot have the same identifier:\n"
+                    f"- {collision.get_absolute_asset_path()}\n"
+                    f"- {new_element.get_absolute_asset_path()}\n"
+                    f"{new_element.get_absolute_asset_path()} will not be included."
+                )
+                return None
+
+            return new_element
+
+        # Synchronous wrapper for async processing
+        async def process_all_files():
+            tasks = [process_file(file) for file in files if Path(scan_directory, file).is_file()]
+            results = await asyncio.gather(*tasks)
+            return [result for result in results if result]
+
+        # Run the async processing
+        elements = asyncio.run(process_all_files())
         return elements
 
     def get_elements(self):
