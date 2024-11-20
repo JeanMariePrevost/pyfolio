@@ -7,7 +7,19 @@ This tool automatically generates a portfolio gallery and pages by detecting mat
 You can try a demo at the following:
 
 Web app demo : https://lightbringer777.pythonanywhere.com/
+
 Static site demo: https://classy-taffy-5d54dc.netlify.app/
+
+<p align="center">
+  <a href="https://raw.githubusercontent.com/JeanMariePrevost/pyfolio/refs/heads/main/images/screenshot_demo_home.webp">
+    <img src="images/screenshot_demo_home.webp" alt="Home Screenshot" width="400">
+  </a>
+  &nbsp;&nbsp;&nbsp; <!-- Adds spacing between images -->
+  <a href="https://raw.githubusercontent.com/JeanMariePrevost/pyfolio/refs/heads/main/images/screenshot_demo_gallery.webp">
+    <img src="images/screenshot_demo_gallery.webp" alt="Gallery Screenshot" width="400">
+  </a>
+</p>
+
 
 ---
 
