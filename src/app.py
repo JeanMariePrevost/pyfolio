@@ -105,13 +105,15 @@ def setup_environment():
     Portfolio.get_instance()  # Not needed but it pre-generates the portfolio
 
 
+app_logger.info("Application starting. Setting up environment...")
+setup_environment()
+
 if __name__ == "__main__":
-    app_logger.info("Application starting.")
+    app_logger.info("Application rnnning directly. Assuming local server.")
 
-    setup_environment()
-
-    app_logger.warning("This is a local server. Schedule browser to open in 1 second.")
-    Timer(1, open_browser).start()  # Non-blocking delay before opening the page to let the server start, since the server itself is blocking
+    # app_logger.warning("This is a local server. Schedule browser to open in 1 second.")
+    # Timer(1, open_browser).start()  # Non-blocking delay before opening the page to let the server start, since the server itself is blocking
 
     app_logger.info("Starting Flask server...")
     app.run(debug=True, use_reloader=False)
+    # app.run()

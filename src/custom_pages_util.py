@@ -49,7 +49,7 @@ def render_custom_page_from_markdown_text(markdown_text: str, source_file_path: 
             nameFromPath = source_file_path.split("/")[-1].split(".")[0]
             nameFromPath = nameFromPath.replace("_", " ").title()
             try:
-                site_title = config_manager.get_config().get("metadata").get("title")
+                site_title = config_manager.get_config().get("general").get("title")
                 nameFromPath = nameFromPath + " - " + site_title
             except:
                 app_logger.warning("No site title found in config.toml")
